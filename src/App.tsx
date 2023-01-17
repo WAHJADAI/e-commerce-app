@@ -1,23 +1,9 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import {Route,Routes} from "react-router-dom"
-
-
-function HomePage(){
-  return(
-    <div>HomePage</div>
-  )
-}
-
-function AboutPage(){
-  return(
-    <div>AboutPage</div>
-  )
-}
-
-function ErrorPage(){
-  return <div><h2><i>Error 404 not found</i></h2></div>
-}
+import HomePage from 'pages/HomePage'
+import AboutPage from 'pages/AboutPage'
+import ErrorPage from 'pages/ErrorPage'
 
 function App() {
 
