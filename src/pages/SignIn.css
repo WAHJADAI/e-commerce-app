@@ -1,0 +1,45 @@
+.SignInPage{
+    display: flex;
+justify-content: center;
+align-items: center;
+    min-height: 100vh;
+    background-image: linear-gradient(to right top, #f5dec5, #fbdb9c, #f0dd72, #d5e347, #a8eb12);
+}
+
+.SignIn,.SignInForm{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+}
+.SignIn{
+    padding: 5rem;
+    background-color: white;
+    border-radius: 10px;
+}
+
+
+label{
+    text-align: left;
+    padding: 1rem 0;
+}
+
+input{
+    margin: 0.5rem 0;
+    padding: 1rem 0;
+    border-radius: 5px;
+    border-color: rgb(219, 219, 219);
+    
+}
+
+button{
+    border: none;
+    background-color: bisque;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 2rem;
+}
+
+.LinkSignUp{
+    color: gray;
+    text-decoration: none   
+}
