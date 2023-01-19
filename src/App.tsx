@@ -6,6 +6,7 @@ import AboutPage from 'pages/AboutPage'
 import ErrorPage from 'pages/ErrorPage'
 import Navbar from 'pages/Navbar'
 import SignIn from 'pages/SignIn'
+import SignUp from 'pages/SignUp'
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
         <Route path="about" element={<AboutPage/>}/>
         <Route path='*' element={<ErrorPage/>}/>
         <Route path='SignIn' element={<SignIn/>}/>
+        <Route path='SignUP' element={<SignUp/>}/>
       </Routes>
     </div>
   )

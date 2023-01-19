@@ -1,15 +1,12 @@
 import React from "react";
-import {Link} from "react-router-dom"
-import "pages/SignIn.css"
+import { Link } from "react-router-dom";
+import  "pages/SignIn.css";
 
-
-
-
-function SignIn(){
+function SignUp(){
     return(
         <div className="SignInPage">
             <div className="SignIn">
-                <h2>Sign In</h2>
+                <h2>Sign Up</h2>
             <form className="SignInForm">               
                 <label htmlFor="email">email</label>
                 <input type="email" placeholder="email" id="email" name="email"/>
@@ -17,10 +14,8 @@ function SignIn(){
                 <input type="password" placeholder="***********" id="password" name="password"/>
                 <button><i className="fa-solid fa-arrow-right"></i></button>
             </form>
-            <Link to="/SignUp" className="LinkSignUp">CREATE ACCOUNT</Link>
             </div>           
         </div>
     )
 }
-
-export default SignIn
+ export default SignUp
