@@ -1,21 +1,26 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import  "pages/SignIn.css";
-
-function SignUp(){
-    return(
-        <div className="SignInPage">
-            <div className="SignIn">
-                <h2>Sign Up</h2>
-            <form className="SignInForm">               
-                <label htmlFor="email">email</label>
-                <input type="email" placeholder="email" id="email" name="email"/>
-                <label htmlFor="password">password</label>
-                <input type="password" placeholder="***********" id="password" name="password"/>
-                <button><i className="fa-solid fa-arrow-right"></i></button>
-            </form>
-            </div>           
-        </div>
-    )
+import React, { ComponentProps } from "react";
+import styled from "styled-components";
+import FormTemplate from "components/FormTemplate";
+const WrapperForm = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  gap: 1.275rem;
+`;
+function SignUp() {
+  const handleSignIn: ComponentProps<typeof FormTemplate>["onSubmit"] = (email, password) => {
+    console.log("🚗:", email, password);
+  };
+  return (
+    <WrapperForm>
+      <FormTemplate
+        title={"Sign Up"}
+        onSubmit={(email: string, password: string) => handleSignIn(email, password)}
+      ></FormTemplate>
+    </WrapperForm>
+  );
 }
- export default SignUp
+export default SignUp;
