@@ -1,25 +1,67 @@
-import React from "react";
+import React, { useId, useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-type Props = {};
+type FormTemplatePropTypes = {
+  title: string;
+  onSummit: (emil: string, password: string) => void;
+};
 
-function FormTemplate({}: Props) {
+type UserAuthenticateType = {
+  email: string;
+  password: string;
+};
+
+function FormTemplate({ title, onSummit }: FormTemplatePropTypes) {
+  const emailId = useId();
+  const passwordId = useId();
+
+  const [useAuthenticate, setUseAuthenticate] = useState<UserAuthenticateType>({
+    email: "",
+    password: "",
+  });
+
   return (
     <div>
       <div>
-        <title>SignIN</title>
+        <title>{title}</title>
       </div>
-      <form>
-        <label htmlFor='email'>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          onSummit(useAuthenticate.email, useAuthenticate.password);
+        }}
+      >
+        <label htmlFor={emailId}>
           Email
-          <input type='email' id='email' name='' />
+          <input
+            type={emailId}
+            id={emailId}
+            name=''
+            required
+            value={useAuthenticate.email}
+            onChange={(e) => {
+              setUseAuthenticate((prev) => ({ ...prev, email: e.target.value }));
+            }}
+          />
         </label>
 
-        <label htmlFor='password'>
+        <label htmlFor={passwordId}>
           Password
-          <input type='password' id='password' name='' />
+          <input
+            type={passwordId}
+            id={passwordId}
+            name=''
+            required
+            value={useAuthenticate.password}
+            onChange={(e) => setUseAuthenticate((prev) => ({ ...prev, password: e.target.value }))}
+          />
         </label>
+        <button type='submit'>
+          <i className='fa-solid fa-arrow-right'></i>
+        </button>
       </form>
+      <Link to='/SignUp'>CREATE ACCOUNT</Link>
     </div>
   );
 }
