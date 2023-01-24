@@ -7,13 +7,16 @@ const NavBarStyled = styled.nav`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 0 10%;
+
+  position: sticky;
+  top: 0;
+  background-color: white;
 `;
 
 const NameShop = styled.span`
   font-family: Explora, cursive;
   font-size: 90px;
-
+  margin-left: 10%;
   text-align: -webkit-center;
   :hover {
     color: #d4d4d8;
@@ -23,6 +26,7 @@ const NameShop = styled.span`
 const MenuNav = styled.ul`
   padding: 0;
   margin: 0;
+  margin-right: 10%;
   list-style: none;
   display: flex;
   gap: 1rem;
@@ -38,7 +42,7 @@ const MenuNav = styled.ul`
   }
 `;
 
-const links = [
+const Links = [
   { name: "Home", path: "/" },
   { name: "about", path: "/about" },
   { name: "Sign In", path: "/SignIn" },
@@ -50,8 +54,8 @@ function Navbar() {
       <NavBarStyled>
         <NameShop>ShopWah</NameShop>
         <MenuNav>
-          {links.map((link) => (
-            <li>
+          {Links.map((link, index) => (
+            <li key={index}>
               <NavLink to={link.path}>{link.name}</NavLink>
             </li>
           ))}

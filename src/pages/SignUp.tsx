@@ -1,6 +1,7 @@
 import React, { ComponentProps } from "react";
 import styled from "styled-components";
 import FormTemplate from "components/FormTemplate";
+
 const WrapperForm = styled.div`
   display: flex;
   justify-content: center;
@@ -10,6 +11,7 @@ const WrapperForm = styled.div`
   width: 100%;
   gap: 1.275rem;
 `;
+
 function SignUp() {
   const handleSignIn: ComponentProps<typeof FormTemplate>["onSubmit"] = (email, password) => {
     console.log("🚗:", email, password);
