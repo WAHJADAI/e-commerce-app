@@ -1,3 +1,4 @@
+import { InformationFormType } from "hook/useUserAuth";
 import React, { useId, useState } from "react";
 import styled from "styled-components";
 
@@ -47,7 +48,10 @@ const Button = styled.button`
 
 type FormTemplatePropTypes = {
   title: string;
-  onSubmit: (emil: string, password: string) => void;
+  email: string;
+  password: string;
+  onChange: (value: string, type: keyof InformationFormType) => void;
+  onSubmit: (email: string, password: string) => void;
 };
 
 type UserAuthenticateType = {
@@ -55,14 +59,9 @@ type UserAuthenticateType = {
   password: string;
 };
 
-function FormTemplate({ title, onSubmit: onSummit }: FormTemplatePropTypes) {
+function FormTemplate({ title, onSubmit, email, password, onChange }: FormTemplatePropTypes) {
   const emailId = useId();
   const passwordId = useId();
-
-  const [useAuthenticate, setUseAuthenticate] = useState<UserAuthenticateType>({
-    email: "",
-    password: "",
-  });
 
   return (
     <Container>
@@ -72,7 +71,7 @@ function FormTemplate({ title, onSubmit: onSummit }: FormTemplatePropTypes) {
       <Form
         onSubmit={(e) => {
           e.preventDefault();
-          onSummit(useAuthenticate.email, useAuthenticate.password);
+          onSubmit(email, password);
         }}
       >
         <Label htmlFor={emailId}>
@@ -82,9 +81,9 @@ function FormTemplate({ title, onSubmit: onSummit }: FormTemplatePropTypes) {
             id={emailId}
             name=''
             required
-            value={useAuthenticate.email}
+            value={email}
             onChange={(e) => {
-              setUseAuthenticate((prev) => ({ ...prev, email: e.target.value }));
+              onChange(e.target.value, "email");
             }}
           />
         </Label>
@@ -97,8 +96,10 @@ function FormTemplate({ title, onSubmit: onSummit }: FormTemplatePropTypes) {
             name=''
             required
             minLength={6}
-            value={useAuthenticate.password}
-            onChange={(e) => setUseAuthenticate((prev) => ({ ...prev, password: e.target.value }))}
+            value={password}
+            onChange={(e) => {
+              onChange(e.target.value, "password");
+            }}
           />
         </Label>
         <Button type='submit'>
