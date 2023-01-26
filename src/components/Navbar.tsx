@@ -14,7 +14,7 @@ const NavBarStyled = styled.nav`
 `;
 
 const NameShop = styled.span`
-  font-family: Explora, cursive;
+  font-family: "Explora", cursive;
   font-size: 90px;
   margin-left: 10%;
   text-align: -webkit-center;
