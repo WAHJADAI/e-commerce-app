@@ -7,6 +7,7 @@ import ErrorPage from "pages/ErrorPage";
 import Navbar from "components/Navbar";
 import SignIn from "pages/SignIn";
 import SignUp from "pages/SignUp";
+import PrivateRoute from "components/PrivateRoute";
 
 function App() {
   return (
@@ -14,7 +15,9 @@ function App() {
       <Routes>
         <Route path='/' element={<Navbar />}>
           <Route index element={<HomePage />} />
-          <Route path='about' element={<AboutPage />} />
+          <Route element={<PrivateRoute />}>
+            <Route path='about' element={<AboutPage />} />
+          </Route>
         </Route>
         <Route path='*' element={<ErrorPage />} />
         <Route path='SignIn' element={<SignIn />} />

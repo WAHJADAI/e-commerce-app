@@ -77,7 +77,7 @@ function FormTemplate({ title, onSubmit, email, password, onChange }: FormTempla
         <Label htmlFor={emailId}>
           Email
           <Input
-            type={emailId}
+            type='email'
             id={emailId}
             name=''
             required
@@ -91,7 +91,7 @@ function FormTemplate({ title, onSubmit, email, password, onChange }: FormTempla
         <Label htmlFor={passwordId}>
           Password
           <Input
-            type={passwordId}
+            type='password'
             id={passwordId}
             name=''
             required
