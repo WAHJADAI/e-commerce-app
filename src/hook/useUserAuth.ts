@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useLocalStorage } from "react-use";
+import { useNavigate } from "react-router-dom";
+import useAuthenticationContext from "./useAuthticationContext";
 export type InformationFormType = {
   email: string;
   password: string;
@@ -10,6 +12,8 @@ function useUserAuth() {
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
+  const { onSetToken, onDeleteToken } = useAuthenticationContext();
   const [, setValue] = useLocalStorage("token");
   function onHandleChangeInformationForm(value: string, type: keyof InformationFormType) {
     setInformationForm((prev) => ({ ...prev, [type]: value }));
@@ -17,12 +21,19 @@ function useUserAuth() {
 
   function onSubmitForm(email: string, password: string) {
     setValue(email);
+    onSetToken(email);
+    navigate(0);
+  }
+  function onSignOut() {
+    onDeleteToken();
+    navigate(0);
   }
   return {
     informationForm,
     setInformationForm,
     onSubmitForm,
     onHandleChangeInformationForm,
+    onSignOut,
   };
 }
 

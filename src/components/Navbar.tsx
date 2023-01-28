@@ -1,4 +1,6 @@
-import React from "react";
+import useAuthenticationContext from "hook/useAuthticationContext";
+import useUserAuth from "hook/useUserAuth";
+import React, { useMemo } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import styled from "styled-components";
 
@@ -41,24 +43,40 @@ const MenuNav = styled.ul`
     }
   }
 `;
-
-const Links = [
+type NavbarPropTypes = {};
+const links = [
   { name: "Home", path: "/" },
   { name: "about", path: "/about" },
   { name: "Sign In", path: "/SignIn" },
 ];
+const pathForToken = ["/about"];
+function Navbar({}: NavbarPropTypes) {
+  const { token } = useAuthenticationContext();
 
-function Navbar() {
+  const { onSignOut } = useUserAuth();
+  const menuList = useMemo(() => {
+    if (token) {
+      return links.filter((menu) => {
+        return menu.path === "/" ? menu : pathForToken.includes(menu.path) ? menu : null;
+      });
+    } else return links;
+  }, [token]);
   return (
     <>
       <NavBarStyled>
         <NameShop>ShopWah</NameShop>
         <MenuNav>
-          {Links.map((link, index) => (
-            <li key={index}>
-              <NavLink to={link.path}>{link.name}</NavLink>
+          {menuList &&
+            menuList.map((link, index) => (
+              <li key={index}>
+                <NavLink to={`${link.path}`}>{link.name}</NavLink>
+              </li>
+            ))}
+          {token && (
+            <li>
+              <button onClick={() => onSignOut()}>Sign Out</button>
             </li>
-          ))}
+          )}
         </MenuNav>
       </NavBarStyled>
       <Outlet />

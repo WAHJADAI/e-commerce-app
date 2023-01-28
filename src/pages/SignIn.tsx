@@ -1,8 +1,9 @@
-import React, { ComponentProps } from "react";
+import React, { ComponentProps, useEffect } from "react";
 import FormTemplate from "components/FormTemplate";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useUserAuth from "hook/useUserAuth";
+import useAuthenticationContext from "hook/useAuthticationContext";
 
 const WrapperForm = styled.div`
   display: flex;
@@ -24,6 +25,14 @@ const LinkSignUp = styled(Link)`
 
 function SignIn() {
   const { onSubmitForm, informationForm, onHandleChangeInformationForm } = useUserAuth();
+  const { token } = useAuthenticationContext();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (token) {
+      navigate("/");
+    }
+    return () => {};
+  }, [token]);
   return (
     <WrapperForm>
       <FormTemplate

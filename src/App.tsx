@@ -8,10 +8,11 @@ import Navbar from "components/Navbar";
 import SignIn from "pages/SignIn";
 import SignUp from "pages/SignUp";
 import PrivateRoute from "components/PrivateRoute";
+import AuthenticationProvider from "context/auth";
 
 function App() {
   return (
-    <div>
+    <AuthenticationProvider>
       <Routes>
         <Route path='/' element={<Navbar />}>
           <Route index element={<HomePage />} />
@@ -23,7 +24,7 @@ function App() {
         <Route path='SignIn' element={<SignIn />} />
         <Route path='SignUP' element={<SignUp />} />
       </Routes>
-    </div>
+    </AuthenticationProvider>
   );
 }
 
