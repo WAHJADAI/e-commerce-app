@@ -43,6 +43,27 @@ const MenuNav = styled.ul`
     }
   }
 `;
+
+const SignOutButton = styled.button`
+  padding: 5px 10px;
+  font-size: 16px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #60a5fa;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 4px #d4d4d8;
+  :hover {
+    background-color: #152d73;
+  }
+  :active {
+    background-color: #152d73;
+    box-shadow: 0 0px;
+    transform: translateY(3px);
+  }
+`;
 type NavbarPropTypes = {};
 const links = [
   { name: "Home", path: "/" },
@@ -74,7 +95,7 @@ function Navbar({}: NavbarPropTypes) {
             ))}
           {token && (
             <li>
-              <button onClick={() => onSignOut()}>Sign Out</button>
+              <SignOutButton onClick={() => onSignOut()}>Sign Out</SignOutButton>
             </li>
           )}
         </MenuNav>
