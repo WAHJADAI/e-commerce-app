@@ -31,6 +31,7 @@ const MenuNav = styled.ul`
   margin-right: 10%;
   list-style: none;
   display: flex;
+  align-items: center;
   gap: 1rem;
 
   li {
@@ -72,16 +73,16 @@ const links = [
 ];
 const pathForToken = ["/about"];
 function Navbar({}: NavbarPropTypes) {
-  const { token } = useAuthenticationContext();
+  const { token: myToken } = useAuthenticationContext();
 
   const { onSignOut } = useUserAuth();
   const menuList = useMemo(() => {
-    if (token) {
+    if (myToken) {
       return links.filter((menu) => {
         return menu.path === "/" ? menu : pathForToken.includes(menu.path) ? menu : null;
       });
     } else return links;
-  }, [token]);
+  }, [myToken]);
   return (
     <>
       <NavBarStyled>
@@ -93,7 +94,7 @@ function Navbar({}: NavbarPropTypes) {
                 <NavLink to={`${link.path}`}>{link.name}</NavLink>
               </li>
             ))}
-          {token && (
+          {myToken && (
             <li>
               <SignOutButton onClick={() => onSignOut()}>Sign Out</SignOutButton>
             </li>

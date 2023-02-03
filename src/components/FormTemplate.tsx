@@ -29,10 +29,36 @@ const Input = styled.input`
   border-radius: 4px;
   outline: none;
   border: 2px solid #152d73;
+  padding: 15px;
+  ::placeholder {
+    color: transparent;
+  }
+  :placeholder-shown ~ Label {
+    position: absolute;
+    margin-top: 15px;
+    margin-left: 10px;
+    font-size: 15px;
+    transition: 0.2s;
+    color: black;
+  }
+  :focus {
+    ~ Label {
+      position: absolute;
+      margin: 0;
+      margin-left: 10px;
+      font-size: 15px;
+      transition: 0.2s;
+      color: black;
+    }
+  }
 `;
 
 const Label = styled.label`
   font-family: "Sofia Sans", sans-serif;
+  position: absolute;
+
+  transition: 0.2s;
+  color: transparent;
 `;
 
 const Button = styled.button`
@@ -44,6 +70,12 @@ const Button = styled.button`
   :hover {
     background-color: #98c5fc;
   }
+`;
+
+const WrapperInput = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 `;
 
 type FormTemplatePropTypes = {
@@ -74,22 +106,19 @@ function FormTemplate({ title, onSubmit, email, password, onChange }: FormTempla
           onSubmit(email, password);
         }}
       >
-        <Label htmlFor={emailId}>
-          Email
-          <Input
-            type='email'
-            id={emailId}
-            name=''
-            required
-            value={email}
-            onChange={(e) => {
-              onChange(e.target.value, "email");
-            }}
-          />
-        </Label>
-
-        <Label htmlFor={passwordId}>
-          Password
+        <Input
+          type='email'
+          id={emailId}
+          name=''
+          required
+          value={email}
+          onChange={(e) => {
+            onChange(e.target.value, "email");
+          }}
+          placeholder='Email'
+        />
+        <Label htmlFor={emailId}>Email</Label>
+        <WrapperInput>
           <Input
             type='password'
             id={passwordId}
@@ -100,8 +129,11 @@ function FormTemplate({ title, onSubmit, email, password, onChange }: FormTempla
             onChange={(e) => {
               onChange(e.target.value, "password");
             }}
+            placeholder='Password'
           />
-        </Label>
+          <Label htmlFor={passwordId}>Password</Label>
+        </WrapperInput>
+
         <Button type='submit'>
           <i className='fa-solid fa-arrow-right'></i>
         </Button>
