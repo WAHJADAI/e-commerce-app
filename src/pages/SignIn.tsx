@@ -24,7 +24,7 @@ const LinkSignUp = styled(Link)`
 `;
 
 function SignIn() {
-  const { onSubmitForm, informationForm, onHandleChangeInformationForm } = useUserAuth();
+  const { onSubmitSignInForm, informationForm, onHandleChangeInformationForm } = useUserAuth();
   const { token } = useAuthenticationContext();
   const navigate = useNavigate();
   useEffect(() => {
@@ -37,7 +37,7 @@ function SignIn() {
     <WrapperForm>
       <FormTemplate
         title={"Sign In"}
-        onSubmit={(email: string, password: string) => onSubmitForm(email, password)}
+        onSubmit={(email: string, password: string) => onSubmitSignInForm(email, password)}
         email={informationForm.email}
         password={informationForm.password}
         onChange={(value, type) => {

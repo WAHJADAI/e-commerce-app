@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useLocalStorage } from "react-use";
 import { useNavigate } from "react-router-dom";
 import useAuthenticationContext from "./useAuthticationContext";
+import { onSignIn, onSignUp } from "api/authentication";
 export type InformationFormType = {
   email: string;
   password: string;
@@ -19,11 +20,17 @@ function useUserAuth() {
     setInformationForm((prev) => ({ ...prev, [type]: value }));
   }
 
-  function onSubmitForm(email: string, password: string) {
-    setValue(email);
-    onSetToken(email);
-    navigate(0);
+  async function onSubmitSignUpForm(email: string, password: string) {
+    //setValue(email);
+    //onSetToken(email);
+    //navigate(0);
+    await onSignUp({ email, password });
   }
+
+  async function onSubmitSignInForm(email: string, password: string) {
+    await onSignIn({ email, password });
+  }
+
   function onSignOut() {
     onDeleteToken();
     navigate(0);
@@ -31,7 +38,8 @@ function useUserAuth() {
   return {
     informationForm,
     setInformationForm,
-    onSubmitForm,
+    onSubmitSignUpForm,
+    onSubmitSignInForm,
     onHandleChangeInformationForm,
     onSignOut,
   };

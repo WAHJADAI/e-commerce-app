@@ -37,9 +37,8 @@ const Input = styled.input`
     position: absolute;
     margin-top: 15px;
     margin-left: 10px;
-    font-size: 15px;
+    font-size: 18px;
     transition: 0.2s;
-    color: black;
   }
   :focus {
     ~ Label {
@@ -48,7 +47,6 @@ const Input = styled.input`
       margin-left: 10px;
       font-size: 15px;
       transition: 0.2s;
-      color: black;
     }
   }
 `;
@@ -56,9 +54,10 @@ const Input = styled.input`
 const Label = styled.label`
   font-family: "Sofia Sans", sans-serif;
   position: absolute;
-
+  margin-left: 10px;
+  font-size: 15px;
   transition: 0.2s;
-  color: transparent;
+  color: black;
 `;
 
 const Button = styled.button`

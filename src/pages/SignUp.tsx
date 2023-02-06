@@ -14,12 +14,12 @@ const WrapperForm = styled.div`
 `;
 
 function SignUp() {
-  const { onSubmitForm, informationForm, onHandleChangeInformationForm } = useUserAuth();
+  const { onSubmitSignUpForm, informationForm, onHandleChangeInformationForm } = useUserAuth();
   return (
     <WrapperForm>
       <FormTemplate
         title={"Sign Up"}
-        onSubmit={(email: string, password: string) => onSubmitForm(email, password)}
+        onSubmit={(email: string, password: string) => onSubmitSignUpForm(email, password)}
         email={informationForm.email}
         password={informationForm.password}
         onChange={(value, type) => {

@@ -9,6 +9,7 @@ import SignIn from "pages/SignIn";
 import SignUp from "pages/SignUp";
 import PrivateRoute from "components/PrivateRoute";
 import AuthenticationProvider from "context/auth";
+import clientApi from "config/axiosConfig";
 
 function App() {
   return (
