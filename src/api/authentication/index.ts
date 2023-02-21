@@ -1,5 +1,8 @@
+import { AxiosResponse } from "axios";
 import clientApi from "config/axiosConfig";
+import useAuthenticationContext from "hook/useAuthticationContext";
 import { InformationFormType } from "hook/useUserAuth";
+import { SignInResponseType } from "./SignIn.type";
 import { SignUpResponseType } from "./Signup.type";
 
 export interface SignUpParamType {
@@ -13,36 +16,45 @@ export interface SignInParamType {
 }
 
 export async function onSignUp({ email, password }: InformationFormType) {
-  try {
-    const response = await clientApi.post<SignUpResponseType, SignUpResponseType, SignUpParamType>(
-      "/auth/local/register",
-      {
-        username: email,
-        email,
-        password,
-      },
-    );
-    console.log("📦 response:", response);
-  } catch (error) {
-    if (error instanceof Error) {
-      console.log("🚓 error:", error.message);
-    }
-  }
+  const response = await clientApi.post<
+    SignUpResponseType,
+    AxiosResponse<SignUpResponseType>,
+    SignUpParamType
+  >("/auth/local/register", {
+    username: email,
+    email,
+    password,
+  });
+  console.log("📦 response:", response);
+  return response;
 }
 
 export async function onSignIn({ email, password }: InformationFormType) {
-  try {
-    const response = await clientApi.post<SignUpResponseType, SignUpResponseType, SignInParamType>(
-      "/auth/local",
-      {
-        identifier: email,
-        password,
-      },
-    );
-    console.log("🚲 LonIn Id:", response);
-  } catch (error) {
-    if (error instanceof Error) {
-      console.log("🏍 error :", error.message);
-    }
-  }
+  // try {
+  //   const response = await clientApi.post<
+  //     SignInResponseType,
+  //     AxiosResponse<SignInResponseType>,
+  //     SignInParamType
+  //   >("/auth/local", {
+  //     identifier: email,
+  //     password,
+  //   });
+  //   console.log("🚇", response);
+  //   return response;
+  // } catch (error) {
+  //   if (error instanceof Error) {
+  //     console.log("🚓 error:", error.message);
+  //     return error;
+  //   }
+  // }
+  const response = await clientApi.post<
+    SignInResponseType,
+    AxiosResponse<SignInResponseType>,
+    SignInParamType
+  >("/auth/local", {
+    identifier: email,
+    password,
+  });
+
+  return response;
 }

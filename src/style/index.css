@@ -1,11 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Explora&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Explora&family=Sofia+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Explora&family=Lora:ital@0;1&family=Sofia+Sans&display=swap");
 :root {
   font-family: Helvetica, Arial, sans-serif, Explora, cursive;
   font-size: 16px;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Lora", serif;
 }
 html,
 * {

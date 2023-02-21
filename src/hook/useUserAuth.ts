@@ -3,6 +3,9 @@ import { useLocalStorage } from "react-use";
 import { useNavigate } from "react-router-dom";
 import useAuthenticationContext from "./useAuthticationContext";
 import { onSignIn, onSignUp } from "api/authentication";
+import useLoadingContext from "./useLoadingContext";
+import { toast } from "react-toastify";
+
 export type InformationFormType = {
   email: string;
   password: string;
@@ -15,6 +18,7 @@ function useUserAuth() {
   });
   const navigate = useNavigate();
   const { onSetToken, onDeleteToken } = useAuthenticationContext();
+  const { isLoading, onLoading } = useLoadingContext();
   const [, setValue] = useLocalStorage("token");
   function onHandleChangeInformationForm(value: string, type: keyof InformationFormType) {
     setInformationForm((prev) => ({ ...prev, [type]: value }));
@@ -24,11 +28,53 @@ function useUserAuth() {
     //setValue(email);
     //onSetToken(email);
     //navigate(0);
-    await onSignUp({ email, password });
+    try {
+      onLoading(true);
+      const response = await onSignUp({ email, password });
+      console.log("🚚", response);
+      toast.success("Your welcome, Please verify your authentication email");
+      navigate("/");
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log(error.message);
+        toast.error("Sign Up Failed: Email or Username are already taken");
+      }
+    } finally {
+      onLoading(false);
+    }
   }
 
   async function onSubmitSignInForm(email: string, password: string) {
-    await onSignIn({ email, password });
+    // onLoading(true);
+    // const response = await onSignIn({ email, password });
+    // console.log("🚦", response);
+
+    // if (response instanceof Error) {
+    //   //alert(response.message);
+    //   toast.error("Sign In Failed: Your user ID or password is incorrect");
+    //   onLoading(false);
+    // }
+    // setValue(response?.data.jwt);
+    // onSetToken(response?.data.jwt);
+    // onLoading(false);
+    // navigate(0);
+    try {
+      onLoading(true);
+      const response = await onSignIn({ email, password });
+      if (response?.data?.jwt) {
+        onSetToken(response?.data?.jwt);
+      }
+      setValue(response?.data?.jwt);
+
+      navigate(0);
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error("Sign In Failed: Your user ID or password is incorrect");
+        console.log(error.message);
+      }
+    } finally {
+      onLoading(false);
+    }
   }
 
   function onSignOut() {

@@ -1,6 +1,6 @@
 import useAuthenticationContext from "hook/useAuthticationContext";
 import useUserAuth from "hook/useUserAuth";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import styled from "styled-components";
 
@@ -24,8 +24,10 @@ const NameShop = styled.span`
     color: #d4d4d8;
   }
 `;
-
-const MenuNav = styled.ul`
+interface TypeChecked {
+  checkTrueOrFalse?: boolean;
+}
+const MenuNav = styled.ul<TypeChecked>`
   padding: 0;
   margin: 0;
   margin-right: 10%;
@@ -42,6 +44,43 @@ const MenuNav = styled.ul`
         color: #d4d4d8;
       }
     }
+  }
+
+  @media screen and (max-width: 500px) {
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 300px;
+    width: 100%;
+    background-color: black;
+    flex-direction: column;
+
+    clip-path: ${(props) =>
+      props.checkTrueOrFalse ? "circle(75%)" : "circle(25px at calc(100% - 45px) 45px)"};
+    li {
+      margin: 15px 0;
+      a {
+        color: none;
+        text-decoration: none;
+
+        padding: 5px 30px;
+        color: #fff;
+        border-radius: 50px;
+        background: #000;
+        position: relative;
+        line-height: 50px;
+        transition: all 0.3s ease;
+      }
+    }
+  }
+`;
+const CheckMenuNav = styled.input.attrs({ type: "checkbox" })`
+  :checked {
+    box-shadow: #115211;
+    width: 10px;
+    height: 10px;
+    z-index: 2;
   }
 `;
 
@@ -65,6 +104,54 @@ const SignOutButton = styled.button`
     transform: translateY(3px);
   }
 `;
+const WrapBurger = styled.label`
+  display: block;
+`;
+
+const Burger = styled.span`
+  display: block;
+  position: absolute;
+  height: 4px;
+  width: 100%;
+  background: black;
+  border-radius: 9px;
+  opacity: 1;
+  left: 0;
+  transform: rotate(0deg);
+  transition: 0.25s ease-in-out;
+`;
+
+// Shopwah
+
+const Logo = styled.span`
+  font-size: 25px;
+  position: relative;
+  top: 3px;
+`;
+const LogoH = styled.span`
+  font-size: 50px;
+`;
+const Wrap = styled.div`
+  position: relative;
+  display: flex;
+  :hover {
+    color: #d4d4d8;
+  }
+`;
+const WrapText = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+
+  flex-wrap: wrap;
+`;
+const LogoWa = styled.span`
+  position: relative;
+  top: -8px;
+  font-size: 25px;
+
+  position: relative;
+`;
 type NavbarPropTypes = {};
 const links = [
   { name: "Home", path: "/" },
@@ -83,11 +170,25 @@ function Navbar({}: NavbarPropTypes) {
       });
     } else return links;
   }, [myToken]);
+  const [isChecked, setIsChecked] = useState(false);
+  const handleIsChecked = (e) => {
+    console.log("😂", e.target.checked);
+    setIsChecked(e.target.checked);
+  };
   return (
     <>
       <NavBarStyled>
-        <NameShop>ShopWah</NameShop>
-        <MenuNav>
+        {/* <NameShop>ShopWah</NameShop>*/}
+        <Wrap>
+          <WrapText>
+            <Logo>s</Logo>
+            <LogoWa>wa</LogoWa>
+          </WrapText>
+          <LogoH>H</LogoH>
+          <Logo>o</Logo>
+          <Logo>p</Logo>
+        </Wrap>
+        <MenuNav checkTrueOrFalse={isChecked}>
           {menuList &&
             menuList.map((link, index) => (
               <li key={index}>
@@ -100,6 +201,9 @@ function Navbar({}: NavbarPropTypes) {
             </li>
           )}
         </MenuNav>
+        <WrapBurger>
+          <CheckMenuNav onChange={handleIsChecked} />
+        </WrapBurger>
       </NavBarStyled>
       <Outlet />
     </>

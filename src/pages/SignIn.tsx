@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import useUserAuth from "hook/useUserAuth";
 import useAuthenticationContext from "hook/useAuthticationContext";
+import Loading from "components/Loading";
+import useLoadingContext from "hook/useLoadingContext";
 
 const WrapperForm = styled.div`
   display: flex;
@@ -26,6 +28,7 @@ const LinkSignUp = styled(Link)`
 function SignIn() {
   const { onSubmitSignInForm, informationForm, onHandleChangeInformationForm } = useUserAuth();
   const { token } = useAuthenticationContext();
+  const { isLoading } = useLoadingContext();
   const navigate = useNavigate();
   useEffect(() => {
     if (token) {
@@ -35,6 +38,7 @@ function SignIn() {
   }, [token]);
   return (
     <WrapperForm>
+      {isLoading && <Loading></Loading>}
       <FormTemplate
         title={"Sign In"}
         onSubmit={(email: string, password: string) => onSubmitSignInForm(email, password)}

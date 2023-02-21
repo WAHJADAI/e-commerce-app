@@ -10,10 +10,26 @@ import SignUp from "pages/SignUp";
 import PrivateRoute from "components/PrivateRoute";
 import AuthenticationProvider from "context/auth";
 import clientApi from "config/axiosConfig";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
     <AuthenticationProvider>
+      <ToastContainer
+        position='top-right'
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme='light'
+      />
+      {/* Same as */}
+      <ToastContainer />
       <Routes>
         <Route path='/' element={<Navbar />}>
           <Route index element={<HomePage />} />

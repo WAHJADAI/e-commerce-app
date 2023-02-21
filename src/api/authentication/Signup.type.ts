@@ -1,6 +1,5 @@
 export interface SignUpResponseType {
   user?: UserType;
-  jwt?: string;
 }
 
 export interface UserType {
