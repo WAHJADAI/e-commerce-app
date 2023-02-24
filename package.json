@@ -18,7 +18,8 @@
     "react-toastify": "^9.1.1",
     "react-use": "^17.4.0",
     "styled-components": "^5.3.6",
-    "vite-tsconfig-paths": "^4.0.3"
+    "vite-tsconfig-paths": "^4.0.3",
+    "zustand": "^4.3.3"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",
