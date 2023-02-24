@@ -1,8 +1,8 @@
 import useAuthenticationContext from "hook/useAuthticationContext";
 import useUserAuth from "hook/useUserAuth";
-import React, { useMemo, useState } from "react";
+import React, { ChangeEvent, useMemo, useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const NavBarStyled = styled.nav`
   color: #60a5fa;
@@ -57,7 +57,8 @@ const MenuNav = styled.ul<TypeChecked>`
     flex-direction: column;
 
     clip-path: ${(props) =>
-      props.checkTrueOrFalse ? "circle(75%)" : "circle(25px at calc(100% - 45px) 45px)"};
+      props.checkTrueOrFalse ? "circle(75%)" : "circle(0px at calc(100% - 45px) 45px)"};
+    transition: all 0.3s ease-in-out;
     li {
       margin: 15px 0;
       a {
@@ -76,12 +77,7 @@ const MenuNav = styled.ul<TypeChecked>`
   }
 `;
 const CheckMenuNav = styled.input.attrs({ type: "checkbox" })`
-  :checked {
-    box-shadow: #115211;
-    width: 10px;
-    height: 10px;
-    z-index: 2;
-  }
+  display: none;
 `;
 
 const SignOutButton = styled.button`
@@ -105,9 +101,53 @@ const SignOutButton = styled.button`
   }
 `;
 const WrapBurger = styled.label`
-  display: block;
+  display: none;
+  width: 75px;
+  cursor: pointer;
+  @media screen and (max-width: 500px) {
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+  }
 `;
+const BurgerLine = styled.span<TypeChecked>`
+  background: #60a5fa;
+  border-radius: 10px;
+  height: 7px;
+  margin: 7px 0;
+  transition: 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 
+  :nth-of-type(1) {
+    width: 50%;
+    ${(props) =>
+      props.checkTrueOrFalse &&
+      css`
+        transform-origin: bottom;
+        transform: rotatez(45deg) translate(8px, 0px);
+      `}
+  }
+
+  :nth-of-type(2) {
+    width: 100%;
+    ${(props) =>
+      props.checkTrueOrFalse &&
+      css`
+        transform-origin: top;
+        transform: rotatez(-45deg);
+      `}
+  }
+
+  :nth-of-type(3) {
+    width: 75%;
+    ${(props) =>
+      props.checkTrueOrFalse &&
+      css`
+        transform-origin: bottom;
+        width: 50%;
+        transform: translate(30px, -11px) rotatez(45deg);
+      `}
+  }
+`;
 const Burger = styled.span`
   display: block;
   position: absolute;
@@ -171,7 +211,7 @@ function Navbar({}: NavbarPropTypes) {
     } else return links;
   }, [myToken]);
   const [isChecked, setIsChecked] = useState(false);
-  const handleIsChecked = (e) => {
+  const handleIsChecked = (e: ChangeEvent<HTMLInputElement>) => {
     console.log("😂", e.target.checked);
     setIsChecked(e.target.checked);
   };
@@ -203,6 +243,9 @@ function Navbar({}: NavbarPropTypes) {
         </MenuNav>
         <WrapBurger>
           <CheckMenuNav onChange={handleIsChecked} />
+          <BurgerLine checkTrueOrFalse={isChecked}></BurgerLine>
+          <BurgerLine checkTrueOrFalse={isChecked}></BurgerLine>
+          <BurgerLine checkTrueOrFalse={isChecked}></BurgerLine>
         </WrapBurger>
       </NavBarStyled>
       <Outlet />
