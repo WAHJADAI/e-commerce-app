@@ -1,7 +1,7 @@
-import useAuthenticationContext from "hook/useAuthticationContext";
 import useUserAuth from "hook/useUserAuth";
 import React, { ChangeEvent, useMemo, useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
+import useAuthenticationStore from "store/authentication/authentication.store";
 import styled, { css } from "styled-components";
 
 const NavBarStyled = styled.nav`
@@ -200,16 +200,16 @@ const links = [
 ];
 const pathForToken = ["/about"];
 function Navbar({}: NavbarPropTypes) {
-  const { token: myToken } = useAuthenticationContext();
+  const jwtToken = useAuthenticationStore((state) => state.jwt);
 
   const { onSignOut } = useUserAuth();
   const menuList = useMemo(() => {
-    if (myToken) {
+    if (jwtToken) {
       return links.filter((menu) => {
         return menu.path === "/" ? menu : pathForToken.includes(menu.path) ? menu : null;
       });
     } else return links;
-  }, [myToken]);
+  }, [jwtToken]);
   const [isChecked, setIsChecked] = useState(false);
   const handleIsChecked = (e: ChangeEvent<HTMLInputElement>) => {
     console.log("😂", e.target.checked);
@@ -235,7 +235,7 @@ function Navbar({}: NavbarPropTypes) {
                 <NavLink to={`${link.path}`}>{link.name}</NavLink>
               </li>
             ))}
-          {myToken && (
+          {jwtToken && (
             <li>
               <SignOutButton onClick={() => onSignOut()}>Sign Out</SignOutButton>
             </li>

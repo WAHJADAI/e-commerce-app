@@ -1,19 +1,19 @@
-import { Authentication } from "context/auth";
 import React, { useContext, useEffect } from "react";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
+import useAuthenticationStore from "store/authentication/authentication.store";
 
 type PrivateRoutePropsType = {};
 
 function PrivateRoute({}: PrivateRoutePropsType) {
-  const { token } = useContext(Authentication);
+  const jwtToken = useAuthenticationStore((state) => state.jwt);
   const navigate = useNavigate();
   useEffect(() => {
-    if (!token) {
+    if (!jwtToken) {
       navigate("/SignIn");
     }
-  }, [token]);
+  }, [jwtToken]);
 
-  return token ? <Outlet /> : <Navigate to={"/SignIn"} />;
+  return jwtToken ? <Outlet /> : <Navigate to={"/SignIn"} />;
 }
 
 export default PrivateRoute;

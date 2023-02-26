@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useLocalStorage } from "react-use";
 import { useNavigate } from "react-router-dom";
-import useAuthenticationContext from "./useAuthticationContext";
+
 import { onSignIn, onSignUp } from "api/authentication";
 import useLoadingContext from "./useLoadingContext";
 import { toast } from "react-toastify";
+import useAuthenticationStore from "store/authentication/authentication.store";
 
 export type InformationFormType = {
   email: string;
@@ -17,7 +18,7 @@ function useUserAuth() {
     password: "",
   });
   const navigate = useNavigate();
-  const { onSetToken, onDeleteToken } = useAuthenticationContext();
+  const { onSetJwt, onRemoveJwt } = useAuthenticationStore();
   const { isLoading, onLoading } = useLoadingContext();
   const [, setValue] = useLocalStorage("token");
   function onHandleChangeInformationForm(value: string, type: keyof InformationFormType) {
@@ -62,7 +63,7 @@ function useUserAuth() {
       onLoading(true);
       const response = await onSignIn({ email, password });
       if (response?.data?.jwt) {
-        onSetToken(response?.data?.jwt);
+        onSetJwt(response?.data?.jwt);
       }
       setValue(response?.data?.jwt);
 
@@ -78,7 +79,7 @@ function useUserAuth() {
   }
 
   function onSignOut() {
-    onDeleteToken();
+    onRemoveJwt();
     navigate(0);
   }
   return {

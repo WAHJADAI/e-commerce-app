@@ -8,14 +8,14 @@ import Navbar from "components/Navbar";
 import SignIn from "pages/SignIn";
 import SignUp from "pages/SignUp";
 import PrivateRoute from "components/PrivateRoute";
-import AuthenticationProvider from "context/auth";
+
 import clientApi from "config/axiosConfig";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
-    <AuthenticationProvider>
+    <>
       <ToastContainer
         position='top-right'
         autoClose={5000}
@@ -41,7 +41,7 @@ function App() {
         <Route path='SignIn' element={<SignIn />} />
         <Route path='SignUP' element={<SignUp />} />
       </Routes>
-    </AuthenticationProvider>
+    </>
   );
 }
 
