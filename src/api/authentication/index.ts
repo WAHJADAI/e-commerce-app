@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import clientApi from "config/axiosConfig";
-import useAuthenticationContext from "hook/useAuthticationContext";
+
 import { InformationFormType } from "hook/useUserAuth";
 import { SignInResponseType } from "./SignIn.type";
 import { SignUpResponseType } from "./Signup.type";
