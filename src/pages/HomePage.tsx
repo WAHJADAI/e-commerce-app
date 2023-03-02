@@ -32,9 +32,8 @@ const WrapText = styled.div`
 const Item = styled.div`
   display: flex;
   flex-direction: column;
-
-  border: solid;
-  border-color: black;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   width: 250px;
   height: 300px;
 `;
@@ -51,11 +50,15 @@ const ItemBottom = styled.div`
   align-items: center;
 `;
 const PhotoItem = styled.div`
-  border: solid;
-  border-color: black;
   width: 150px;
   height: 150px;
 `;
+
+const ItemProductWrap = styled.div`
+  display: inline-flex;
+  padding: 10px;
+`;
+
 function HomePage() {
   const texts = ["when", "shopping", "makes you", "happy"];
   const [products, setProducts] = useState<Products>();
@@ -71,30 +74,51 @@ function HomePage() {
   useEffect(() => {
     onGetProduct();
   }, []);
-
+  if (!products) return null;
   return (
-    <WrapText>
-      <Line></Line>
-      {texts.map((text, index) => (
-        <HomePagText key={index}>{text}</HomePagText>
+    <>
+      <WrapText>
+        <Line></Line>
+        {texts.map((text, index) => (
+          <HomePagText key={index}>{text}</HomePagText>
+        ))}
+
+        <Line></Line>
+        <div>
+          <Item>
+            <ItemTop>
+              <span>Name brand</span>
+              <span>value</span>
+            </ItemTop>
+            <ItemBottom>
+              <ItemName>Name Item</ItemName>
+              <PhotoItem>Photo</PhotoItem>
+            </ItemBottom>
+
+            <span>price</span>
+          </Item>
+        </div>
+      </WrapText>
+
+      {products.data?.map((product, index) => (
+        <ItemProductWrap key={index}>
+          <Item>
+            <ItemTop>
+              <span>{product.isNew ? "New" : "Previously owned"}</span>
+              <span>{product.stock}</span>
+            </ItemTop>
+            <ItemBottom>
+              <ItemName>{product.name}</ItemName>
+              <PhotoItem>
+                <img src={product.img?.url} width='150px' height='150px' />
+              </PhotoItem>
+            </ItemBottom>
+
+            <span>$ {product.price}</span>
+          </Item>
+        </ItemProductWrap>
       ))}
-
-      <Line></Line>
-      <div>
-        <Item>
-          <ItemTop>
-            <span>Name brand</span>
-            <span>value</span>
-          </ItemTop>
-          <ItemBottom>
-            <ItemName>Name Item</ItemName>
-            <PhotoItem>Photo</PhotoItem>
-          </ItemBottom>
-
-          <span>price</span>
-        </Item>
-      </div>
-    </WrapText>
+    </>
   );
 }
 
