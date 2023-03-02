@@ -1,5 +1,6 @@
-import { SignUpResponseType } from "./Signup.type";
+import { UserType } from "./Signup.type";
 
-export interface SignInResponseType extends SignUpResponseType {
+export interface SignInResponseType {
   jwt?: string;
+  user?: Required<UserType>;
 }

@@ -1,4 +1,7 @@
-import React from "react";
+import { Products } from "api/products/products.type";
+
+import clientApi from "config/axiosConfig";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const HomePagText = styled.div`
@@ -55,6 +58,20 @@ const PhotoItem = styled.div`
 `;
 function HomePage() {
   const texts = ["when", "shopping", "makes you", "happy"];
+  const [products, setProducts] = useState<Products>();
+  async function onGetProduct() {
+    try {
+      const response = await clientApi.get<Products>("/products?populate=*");
+      setProducts(response.data);
+      console.log("😁", response.data);
+    } catch (error) {
+      console.error("😎😋");
+    }
+  }
+  useEffect(() => {
+    onGetProduct();
+  }, []);
+
   return (
     <WrapText>
       <Line></Line>

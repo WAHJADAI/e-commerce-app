@@ -6,6 +6,8 @@ import { onSignIn, onSignUp } from "api/authentication";
 import useLoadingContext from "./useLoadingContext";
 import { toast } from "react-toastify";
 import useAuthenticationStore from "store/authentication/authentication.store";
+import useProfileStore from "store/profile/profile.store";
+import { shallow } from "zustand/shallow";
 
 export type InformationFormType = {
   email: string;
@@ -19,6 +21,13 @@ function useUserAuth() {
   });
   const navigate = useNavigate();
   const { onSetJwt, onRemoveJwt } = useAuthenticationStore();
+  const { onUpdateUser, onRemoveUser } = useProfileStore(
+    (state) => ({
+      onUpdateUser: state.onUpdateUser,
+      onRemoveUser: state.onRemoveUser,
+    }),
+    shallow,
+  );
   const { isLoading, onLoading } = useLoadingContext();
   const [, setValue] = useLocalStorage("token");
   function onHandleChangeInformationForm(value: string, type: keyof InformationFormType) {
@@ -63,11 +72,12 @@ function useUserAuth() {
       onLoading(true);
       const response = await onSignIn({ email, password });
       if (response?.data?.jwt) {
+        console.log("😀", response.data.user);
+        console.log("🥰", response.data);
         onSetJwt(response?.data?.jwt);
+        response.data.user && onUpdateUser(response.data.user);
       }
       setValue(response?.data?.jwt);
-
-      navigate(0);
     } catch (error) {
       if (error instanceof Error) {
         toast.error("Sign In Failed: Your user ID or password is incorrect");
@@ -79,8 +89,9 @@ function useUserAuth() {
   }
 
   function onSignOut() {
+    onRemoveUser();
     onRemoveJwt();
-    navigate(0);
+    navigate("/");
   }
   return {
     informationForm,

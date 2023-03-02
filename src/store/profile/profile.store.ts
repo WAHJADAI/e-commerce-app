@@ -8,15 +8,18 @@ type UseProfileStoreType = {
   onRemoveUser: () => void;
 };
 const useProfileStore = create<UseProfileStoreType>()(
-  devtools((set) => ({
-    user: null,
-    onUpdateUser: (user) => {
-      set({ user }, false, "onUpdateUser");
-      return user;
-    },
-    onRemoveUser: () => {
-      set({ user: null }), false, "onRemoveUser";
-    },
-  })),
+  devtools(
+    (set) => ({
+      user: null,
+      onUpdateUser: (user) => {
+        set({ user }, false, "onUpdateUser");
+        return user;
+      },
+      onRemoveUser: () => {
+        set({ user: null }), false, "onRemoveUser";
+      },
+    }),
+    { store: "useProfileStore" },
+  ),
 );
 export default useProfileStore;
