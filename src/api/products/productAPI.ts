@@ -1,11 +1,12 @@
 import clientApi from "config/axiosConfig";
+import { onHandleErrorFromApi } from "helpers";
 import { Products } from "./products.type";
 
 export async function onGetProduct() {
   try {
-    const response = await clientApi.get<Products>("/api/products?populate=*");
-    return response;
+    const { data } = await clientApi.get<Products>("/products?populate=*");
+    return [data, null];
   } catch (error) {
-    console.error("😎😋");
+    return onHandleErrorFromApi(error);
   }
 }

@@ -1,3 +1,4 @@
+import { onGetProduct } from "api/products/productAPI";
 import { Products } from "api/products/products.type";
 
 import clientApi from "config/axiosConfig";
@@ -62,17 +63,26 @@ const ItemProductWrap = styled.div`
 function HomePage() {
   const texts = ["when", "shopping", "makes you", "happy"];
   const [products, setProducts] = useState<Products>();
-  async function onGetProduct() {
-    try {
-      const response = await clientApi.get<Products>("/products?populate=*");
-      setProducts(response.data);
-      console.log("😁", response.data);
-    } catch (error) {
-      console.error("😎😋");
+  // async function onGetProduct() {
+  //   try {
+  //     const response = await clientApi.get<Products>("/products?populate=*");
+  //     setProducts(response.data);
+  //     console.log("😁", response.data);
+  //   } catch (error) {
+  //     console.error("😎😋");
+  //   }
+  // }
+  async function onGetAllProduct() {
+    const [data, error] = await onGetProduct();
+    if (error) {
+      console.log("Error :", error);
+    }
+    if (data) {
+      setProducts(data);
     }
   }
   useEffect(() => {
-    onGetProduct();
+    onGetAllProduct();
   }, []);
   if (!products) return null;
   return (
