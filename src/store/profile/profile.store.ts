@@ -1,3 +1,4 @@
+import useAuthenticationStore from "store/authentication/authentication.store";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { ProfileType } from "./type";
@@ -17,6 +18,7 @@ const useProfileStore = create<UseProfileStoreType>()(
       },
       onRemoveUser: () => {
         set({ user: null }), false, "onRemoveUser";
+        useAuthenticationStore.getState().onRemoveJwt();
       },
     }),
     { store: "useProfileStore" },
