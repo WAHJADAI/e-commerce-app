@@ -2,7 +2,8 @@ import { onGetProduct } from "api/products/productAPI";
 import { Products } from "api/products/products.type";
 
 import clientApi from "config/axiosConfig";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import useProductsStore from "store/products/product.store";
 import styled from "styled-components";
 
 const HomePagText = styled.div`
@@ -62,6 +63,8 @@ const ItemProductWrap = styled.div`
 
 function HomePage() {
   const texts = ["when", "shopping", "makes you", "happy"];
+  const onGetProductStore = useProductsStore((state) => state.onGetProductStore);
+  const productsStore = useProductsStore((state) => state.productsStore);
   const [products, setProducts] = useState<Products>();
   // async function onGetProduct() {
   //   try {
@@ -79,12 +82,19 @@ function HomePage() {
     }
     if (data) {
       setProducts(data);
+      console.log("😥😣😏");
     }
   }
-  useEffect(() => {
-    onGetAllProduct();
-  }, []);
-  if (!products) return null;
+
+  useMemo(() => {
+    if (productsStore == null) {
+      onGetProductStore();
+      console.log("🥱😫");
+    }
+  }, [productsStore]);
+  if (!productsStore) {
+    return null;
+  }
   return (
     <>
       <WrapText>
@@ -110,7 +120,7 @@ function HomePage() {
         </div>
       </WrapText>
 
-      {products.data?.map((product, index) => (
+      {productsStore.data?.map((product, index) => (
         <ItemProductWrap key={index}>
           <Item>
             <ItemTop>
