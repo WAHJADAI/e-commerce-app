@@ -95,7 +95,6 @@ function HomePage() {
     }
     setName(keyword);
   };
-  console.log("ssssss", foundUsers);
   return (
     <>
       <WrapText>
