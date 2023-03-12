@@ -5,7 +5,7 @@ import { AxiosReturn } from "types/Api.type";
 
 export async function onGetProfileWithUserId(userId: string): AxiosReturn<ProfileType> {
   try {
-    const { data } = await clientApi.get(`/users/${userId}`);
+    const { data } = await clientApi.get<ProfileType>(`/users/me`);
     return [data, null];
   } catch (error) {
     return onHandleErrorFromApi(error);

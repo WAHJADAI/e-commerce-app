@@ -2,9 +2,10 @@ import useUserAuth from "hook/useUserAuth";
 import React, { ChangeEvent, useMemo, useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import useAuthenticationStore from "store/authentication/authentication.store";
+import useProfileStore from "store/profile/profile.store";
 import styled, { css } from "styled-components";
 
-const NavBarStyled = styled.nav`
+const NavBarStyled = styled.div`
   color: #60a5fa;
   display: flex;
   align-items: center;
@@ -15,15 +16,6 @@ const NavBarStyled = styled.nav`
   background-color: white;
 `;
 
-const NameShop = styled.span`
-  font-family: "Explora", cursive;
-  font-size: 90px;
-  margin-left: 10%;
-  text-align: -webkit-center;
-  :hover {
-    color: #d4d4d8;
-  }
-`;
 interface TypeChecked {
   checkTrueOrFalse?: boolean;
 }
@@ -51,7 +43,7 @@ const MenuNav = styled.ul<TypeChecked>`
     position: absolute;
     top: 0;
     left: 0;
-    height: 300px;
+    height: 100vh;
     width: 100%;
     background-color: black;
     flex-direction: column;
@@ -148,18 +140,6 @@ const BurgerLine = styled.span<TypeChecked>`
       `}
   }
 `;
-const Burger = styled.span`
-  display: block;
-  position: absolute;
-  height: 4px;
-  width: 100%;
-  background: black;
-  border-radius: 9px;
-  opacity: 1;
-  left: 0;
-  transform: rotate(0deg);
-  transition: 0.25s ease-in-out;
-`;
 
 // Shopwah
 
@@ -215,6 +195,7 @@ function Navbar({}: NavbarPropTypes) {
     console.log("😂", e.target.checked);
     setIsChecked(e.target.checked);
   };
+  const user = useProfileStore((state) => state.user);
   return (
     <>
       <NavBarStyled>
@@ -238,6 +219,11 @@ function Navbar({}: NavbarPropTypes) {
           {jwtToken && (
             <li>
               <SignOutButton onClick={() => onSignOut()}>Sign Out</SignOutButton>
+            </li>
+          )}
+          {user && (
+            <li>
+              <div>{user?.username.slice(0, 2).toUpperCase()}</div>
             </li>
           )}
         </MenuNav>

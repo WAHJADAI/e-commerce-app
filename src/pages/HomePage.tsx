@@ -65,33 +65,14 @@ function HomePage() {
   const texts = ["when", "shopping", "makes you", "happy"];
   const onGetProductStore = useProductsStore((state) => state.onGetProductStore);
   const productsStore = useProductsStore((state) => state.productsStore);
-  const [products, setProducts] = useState<Products>();
-  // async function onGetProduct() {
-  //   try {
-  //     const response = await clientApi.get<Products>("/products?populate=*");
-  //     setProducts(response.data);
-  //     console.log("😁", response.data);
-  //   } catch (error) {
-  //     console.error("😎😋");
-  //   }
-  // }
-  async function onGetAllProduct() {
-    const [data, error] = await onGetProduct();
-    if (error) {
-      console.log("Error :", error);
-    }
-    if (data) {
-      setProducts(data);
-      console.log("😥😣😏");
-    }
-  }
 
-  useMemo(() => {
-    if (productsStore == null) {
+  useEffect(() => {
+    if (!productsStore) {
       onGetProductStore();
-      console.log("🥱😫");
     }
+    console.log("😍😘", productsStore);
   }, [productsStore]);
+
   if (!productsStore) {
     return null;
   }
