@@ -2,9 +2,11 @@ import { onGetProduct } from "api/products/productAPI";
 import { Products } from "api/products/products.type";
 
 import clientApi from "config/axiosConfig";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { ChangeEvent, useEffect, useMemo, useState } from "react";
+import { SyntheticEvent } from "react-toastify/dist/utils";
 import useProductsStore from "store/products/product.store";
 import styled from "styled-components";
+import { shallow } from "zustand/shallow";
 
 const HomePagText = styled.div`
   display: flex;
@@ -63,8 +65,11 @@ const ItemProductWrap = styled.div`
 
 function HomePage() {
   const texts = ["when", "shopping", "makes you", "happy"];
-  const onGetProductStore = useProductsStore((state) => state.onGetProductStore);
-  const productsStore = useProductsStore((state) => state.productsStore);
+
+  const { productsStore, onGetProductStore } = useProductsStore(
+    (state) => ({ productsStore: state.productsStore, onGetProductStore: state.onGetProductStore }),
+    shallow,
+  );
 
   useEffect(() => {
     if (!productsStore) {
@@ -76,6 +81,21 @@ function HomePage() {
   if (!productsStore) {
     return null;
   }
+  const [name, setName] = useState("");
+  const [foundUsers, setFoundUsers] = useState(productsStore?.data);
+  const filter = (e: ChangeEvent<HTMLInputElement>) => {
+    const keyword = e.target.value;
+    if (keyword !== "") {
+      const results = productsStore?.data?.filter((product) => {
+        return product.name?.toLowerCase().startsWith(keyword.toLowerCase());
+      });
+      setFoundUsers(results);
+    } else {
+      setFoundUsers(productsStore?.data);
+    }
+    setName(keyword);
+  };
+  console.log("ssssss", foundUsers);
   return (
     <>
       <WrapText>
@@ -100,25 +120,29 @@ function HomePage() {
           </Item>
         </div>
       </WrapText>
+      <input type='search' value={name} onChange={filter} className='input' placeholder='Filter' />
+      {foundUsers && foundUsers.length > 0 ? (
+        foundUsers.map((product, index) => (
+          <ItemProductWrap key={index}>
+            <Item>
+              <ItemTop>
+                <span>{product.isNew ? "New" : "Previously owned"}</span>
+                <span>{product.stock}</span>
+              </ItemTop>
+              <ItemBottom>
+                <ItemName>{product.name}</ItemName>
+                <PhotoItem>
+                  <img src={product.img?.url} width='150px' height='150px' />
+                </PhotoItem>
+              </ItemBottom>
 
-      {productsStore.data?.map((product, index) => (
-        <ItemProductWrap key={index}>
-          <Item>
-            <ItemTop>
-              <span>{product.isNew ? "New" : "Previously owned"}</span>
-              <span>{product.stock}</span>
-            </ItemTop>
-            <ItemBottom>
-              <ItemName>{product.name}</ItemName>
-              <PhotoItem>
-                <img src={product.img?.url} width='150px' height='150px' />
-              </PhotoItem>
-            </ItemBottom>
-
-            <span>$ {product.price}</span>
-          </Item>
-        </ItemProductWrap>
-      ))}
+              <span>$ {product.price}</span>
+            </Item>
+          </ItemProductWrap>
+        ))
+      ) : (
+        <h1>No results found!</h1>
+      )}
     </>
   );
 }
