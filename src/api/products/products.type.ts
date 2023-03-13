@@ -14,7 +14,7 @@ export type ProductData = {
   publishedAt?: Date;
   slug?: null;
   img?: Img;
-  categories?: Category[];
+  categories?: Category;
 };
 
 export type Category = {

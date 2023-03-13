@@ -12,10 +12,13 @@ const HomePagText = styled.div`
   display: flex;
   flex-wrap: wrap;
 
-  font-size: 40px;
+  font-size: 3vw;
+  @media screen and (max-width: 500px) {
+    font-size: 5vw;
+  }
 `;
 const Line = styled.div`
-  width: 200px;
+  width: 10vh;
   height: 2px;
   background-color: black;
   margin: 10px;
@@ -39,10 +42,14 @@ const Item = styled.div`
   border-radius: 10px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   width: 250px;
-  height: 300px;
+  height: 250px;
 `;
 const ItemName = styled.span`
   font-size: 28px;
+  white-space: nowrap;
+  width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 const ItemTop = styled.div`
   display: flex;
@@ -62,31 +69,21 @@ const ItemProductWrap = styled.div`
   display: inline-flex;
   padding: 10px;
 `;
-
+const WrapContent = styled.div`
+  display: flex;
+`;
 function HomePage() {
   const texts = ["when", "shopping", "makes you", "happy"];
-
+  const [name, setName] = useState("");
   const { productsStore, onGetProductStore } = useProductsStore(
     (state) => ({ productsStore: state.productsStore, onGetProductStore: state.onGetProductStore }),
     shallow,
   );
-
-  useEffect(() => {
-    if (!productsStore) {
-      onGetProductStore();
-    }
-    console.log("😍😘", productsStore);
-  }, [productsStore]);
-
-  if (!productsStore) {
-    return null;
-  }
-  const [name, setName] = useState("");
   const [foundUsers, setFoundUsers] = useState(productsStore?.data);
   const filter = (e: ChangeEvent<HTMLInputElement>) => {
     const keyword = e.target.value;
     if (keyword !== "") {
-      const results = productsStore?.data?.filter((product) => {
+      const results = foundUsers?.filter((product) => {
         return product.name?.toLowerCase().startsWith(keyword.toLowerCase());
       });
       setFoundUsers(results);
@@ -95,8 +92,22 @@ function HomePage() {
     }
     setName(keyword);
   };
+
+  useEffect(() => {
+    if (!productsStore) {
+      onGetProductStore();
+      console.log(productsStore);
+    }
+    setFoundUsers(productsStore?.data);
+    console.log("🤣");
+  }, [productsStore]);
+
+  if (!productsStore) {
+    return null;
+  }
+
   return (
-    <>
+    <div>
       <WrapText>
         <Line></Line>
         {texts.map((text, index) => (
@@ -104,45 +115,44 @@ function HomePage() {
         ))}
 
         <Line></Line>
-        <div>
-          <Item>
-            <ItemTop>
-              <span>Name brand</span>
-              <span>value</span>
-            </ItemTop>
-            <ItemBottom>
-              <ItemName>Name Item</ItemName>
-              <PhotoItem>Photo</PhotoItem>
-            </ItemBottom>
-
-            <span>price</span>
-          </Item>
-        </div>
       </WrapText>
-      <input type='search' value={name} onChange={filter} className='input' placeholder='Filter' />
-      {foundUsers && foundUsers.length > 0 ? (
-        foundUsers.map((product, index) => (
-          <ItemProductWrap key={index}>
-            <Item>
-              <ItemTop>
-                <span>{product.isNew ? "New" : "Previously owned"}</span>
-                <span>{product.stock}</span>
-              </ItemTop>
-              <ItemBottom>
-                <ItemName>{product.name}</ItemName>
-                <PhotoItem>
-                  <img src={product.img?.url} width='150px' height='150px' />
-                </PhotoItem>
-              </ItemBottom>
 
-              <span>$ {product.price}</span>
-            </Item>
-          </ItemProductWrap>
-        ))
-      ) : (
-        <h1>No results found!</h1>
-      )}
-    </>
+      <div style={{ display: "flex", padding: "20px" }}>
+        <div>
+          <input
+            type='search'
+            value={name}
+            onChange={filter}
+            className='input'
+            placeholder='Filter'
+          />
+        </div>
+        <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
+          {foundUsers && foundUsers.length > 0 ? (
+            foundUsers.map((product, index) => (
+              <ItemProductWrap key={index}>
+                <Item>
+                  <ItemTop>
+                    <span>{product.isNew ? "New" : "Previously owned"}</span>
+                    <span>{product.stock}</span>
+                  </ItemTop>
+                  <ItemBottom>
+                    <ItemName>{product.name}</ItemName>
+                    <PhotoItem>
+                      <img src={product.img?.url} width='150px' height='150px' />
+                    </PhotoItem>
+                  </ItemBottom>
+
+                  <span>$ {product.price}</span>
+                </Item>
+              </ItemProductWrap>
+            ))
+          ) : (
+            <h1>No results found!</h1>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
 

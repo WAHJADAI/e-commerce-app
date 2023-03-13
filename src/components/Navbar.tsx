@@ -10,7 +10,7 @@ const NavBarStyled = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-
+  width: 100%;
   position: sticky;
   top: 0;
   background-color: white;
@@ -40,10 +40,14 @@ const MenuNav = styled.ul<TypeChecked>`
 
   @media screen and (max-width: 500px) {
     z-index: 1;
+    margin-right: 0;
+
     position: absolute;
-    top: 0;
-    left: 0;
-    height: 100vh;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    height: 300vh;
     width: 100%;
     background-color: black;
     flex-direction: column;
