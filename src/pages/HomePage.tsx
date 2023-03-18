@@ -2,6 +2,7 @@ import { onGetProduct } from "api/products/productAPI";
 import { Products } from "api/products/products.type";
 
 import clientApi from "config/axiosConfig";
+import { onHandleErrorFromApi } from "helpers";
 import React, { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { SyntheticEvent } from "react-toastify/dist/utils";
 import useProductsStore from "store/products/product.store";
@@ -79,32 +80,89 @@ function HomePage() {
     (state) => ({ productsStore: state.productsStore, onGetProductStore: state.onGetProductStore }),
     shallow,
   );
-  const [foundUsers, setFoundUsers] = useState(productsStore?.data);
+  const [showItem, setShowItem] = useState(productsStore?.data);
   const filter = (e: ChangeEvent<HTMLInputElement>) => {
     const keyword = e.target.value;
     if (keyword !== "") {
-      const results = foundUsers?.filter((product) => {
+      const results = showItem?.filter((product) => {
         return product.name?.toLowerCase().startsWith(keyword.toLowerCase());
       });
-      setFoundUsers(results);
+      setShowItem(results);
     } else {
-      setFoundUsers(productsStore?.data);
+      setShowItem(productsStore?.data);
     }
     setName(keyword);
   };
+  type Category = {
+    data?: CategoryData[];
+    meta?: Meta;
+  };
+  //note getCategory
+  ///
+  ////
+  ////
+
+  type CategoryData = {
+    id?: number;
+    title?: string;
+    desc?: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+    publishedAt?: Date;
+  };
+
+  type Meta = {
+    pagination?: Pagination;
+  };
+
+  type Pagination = {
+    page?: number;
+    pageSize?: number;
+    pageCount?: number;
+    total?: number;
+  };
+  const [category, setCategory] = useState<Category>();
+
+  async function onGetCategories() {
+    const { data } = await clientApi.get<Category>("/categories");
+    setCategory(data);
+    return data;
+  }
 
   useEffect(() => {
     if (!productsStore) {
       onGetProductStore();
-      console.log(productsStore);
+      onGetCategories();
     }
-    setFoundUsers(productsStore?.data);
-    console.log("🤣");
-  }, [productsStore]);
+    setShowItem(productsStore?.data);
+  }, [productsStore, category]);
 
   if (!productsStore) {
     return null;
   }
+  const handleCategory = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.checked) {
+      if (showItem?.length == productsStore.data?.length) {
+        const result = productsStore?.data?.filter((productItem) => {
+          return productItem.category?.title == event.target.name;
+        });
+        setShowItem(result);
+      } else {
+        const result = productsStore?.data?.filter((productItem) => {
+          return productItem.category?.title == event.target.name;
+        });
+
+        setShowItem((showItem) => showItem?.concat(result ?? []));
+      }
+    } else {
+      const result = showItem?.filter((productItem) => {
+        return productItem.category?.title !== event.target.name;
+      });
+      if (result?.length === 0) {
+        setShowItem(productsStore.data);
+      } else setShowItem(result);
+    }
+  };
 
   return (
     <div>
@@ -117,20 +175,38 @@ function HomePage() {
         <Line></Line>
       </WrapText>
 
-      <div style={{ display: "flex", padding: "20px" }}>
+      <div style={{ display: "flex", padding: "20px", justifyContent: "center" }}>
         <div>
-          <input
-            type='search'
-            value={name}
-            onChange={filter}
-            className='input'
-            placeholder='Filter'
-          />
+          <div>
+            <input
+              type='search'
+              value={name}
+              onChange={filter}
+              className='input'
+              placeholder='Filter'
+            />
+          </div>
+
+          <div>
+            {category &&
+              category.data?.map((category) => (
+                <>
+                  <input
+                    type='checkbox'
+                    name={category.title}
+                    id={category.id?.toString()}
+                    onChange={handleCategory}
+                  />
+                  <span>{category.title}</span>
+                  <br />
+                </>
+              ))}
+          </div>
         </div>
-        <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
-          {foundUsers && foundUsers.length > 0 ? (
-            foundUsers.map((product, index) => (
-              <ItemProductWrap key={index}>
+        <div style={{ display: "flex", justifyContent: "flex-start", flexWrap: "wrap" }}>
+          {showItem && showItem.length > 0 ? (
+            showItem.map((product) => (
+              <ItemProductWrap key={product.id}>
                 <Item>
                   <ItemTop>
                     <span>{product.isNew ? "New" : "Previously owned"}</span>
