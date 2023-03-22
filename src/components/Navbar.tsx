@@ -202,7 +202,6 @@ function Navbar({}: NavbarPropTypes) {
   }, [jwtToken]);
   const [isChecked, setIsChecked] = useState(false);
   const handleIsChecked = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log("😂", e.target.checked);
     setIsChecked(e.target.checked);
   };
   const user = useProfileStore((state) => state.user);

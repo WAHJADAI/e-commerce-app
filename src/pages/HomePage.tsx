@@ -72,7 +72,20 @@ const ItemProductWrap = styled.div`
 `;
 const WrapContent = styled.div`
   display: flex;
+  padding: 20px;
+  justify-content: center;
+  @media screen and (max-width: 700px) {
+    flex-direction: column;
+  }
 `;
+const WrapFilter = styled.div`
+  @media screen and (max-width: 700px) {
+    display: flexbox;
+    justify-content: center;
+  }
+  gap: 5px;
+`;
+
 function HomePage() {
   const texts = ["when", "shopping", "makes you", "happy"];
   const [searchTextShow, setSearchTextShow] = useState<string>("");
@@ -83,6 +96,7 @@ function HomePage() {
   const [searchText, setSearchText] = useState<string>("");
   const [category, setCategory] = useState<Category>();
   const [searchByCategory, setSearchByCategory] = useState<number[]>([]);
+
   type Category = {
     data?: CategoryData[];
     meta?: Meta;
@@ -165,8 +179,8 @@ function HomePage() {
         <Line></Line>
       </WrapText>
 
-      <div style={{ display: "flex", padding: "20px", justifyContent: "center" }}>
-        <div>
+      <WrapContent>
+        <WrapFilter>
           <div>
             <input
               type='search'
@@ -192,32 +206,34 @@ function HomePage() {
                 </div>
               ))}
           </div>
-        </div>
-        <div style={{ display: "flex", justifyContent: "flex-start", flexWrap: "wrap" }}>
-          {currentItems && currentItems.length > 0 ? (
-            currentItems.map((product) => (
-              <ItemProductWrap key={product.id}>
-                <Item>
-                  <ItemTop>
-                    <span>{product.isNew ? "New" : "Previously owned"}</span>
-                    <span>{product.stock}</span>
-                  </ItemTop>
-                  <ItemBottom>
-                    <ItemName>{product.name}</ItemName>
-                    <PhotoItem>
-                      <img src={product.img?.url} width='150px' height='150px' />
-                    </PhotoItem>
-                  </ItemBottom>
+        </WrapFilter>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <div style={{ display: "flex", justifyContent: "flex-start", flexWrap: "wrap" }}>
+            {currentItems && currentItems.length > 0 ? (
+              currentItems.map((product) => (
+                <ItemProductWrap key={product.id}>
+                  <Item>
+                    <ItemTop>
+                      <span>{product.isNew ? "New" : "Previously owned"}</span>
+                      <span>{product.stock}</span>
+                    </ItemTop>
+                    <ItemBottom>
+                      <ItemName>{product.name}</ItemName>
+                      <PhotoItem>
+                        <img src={product.img?.url} width='150px' height='150px' />
+                      </PhotoItem>
+                    </ItemBottom>
 
-                  <span>$ {product.price}</span>
-                </Item>
-              </ItemProductWrap>
-            ))
-          ) : (
-            <h1>No results found!</h1>
-          )}
+                    <span>$ {product.price}</span>
+                  </Item>
+                </ItemProductWrap>
+              ))
+            ) : (
+              <h1>No results found!</h1>
+            )}
+          </div>
         </div>
-      </div>
+      </WrapContent>
     </div>
   );
 }
