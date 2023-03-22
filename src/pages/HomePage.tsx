@@ -75,24 +75,14 @@ const WrapContent = styled.div`
 `;
 function HomePage() {
   const texts = ["when", "shopping", "makes you", "happy"];
-  const [name, setName] = useState("");
+  const [searchTextShow, setSearchTextShow] = useState<string>("");
   const { productsStore, onGetProductStore } = useProductsStore(
     (state) => ({ productsStore: state.productsStore, onGetProductStore: state.onGetProductStore }),
     shallow,
   );
-  const [showItem, setShowItem] = useState(productsStore?.data);
-  const filter = (e: ChangeEvent<HTMLInputElement>) => {
-    const keyword = e.target.value;
-    if (keyword !== "") {
-      const results = showItem?.filter((product) => {
-        return product.name?.toLowerCase().startsWith(keyword.toLowerCase());
-      });
-      setShowItem(results);
-    } else {
-      setShowItem(productsStore?.data);
-    }
-    setName(keyword);
-  };
+  const [searchText, setSearchText] = useState<string>("");
+  const [category, setCategory] = useState<Category>();
+  const [searchByCategory, setSearchByCategory] = useState<number[]>([]);
   type Category = {
     data?: CategoryData[];
     meta?: Meta;
@@ -121,49 +111,49 @@ function HomePage() {
     pageCount?: number;
     total?: number;
   };
-  const [category, setCategory] = useState<Category>();
 
+  const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTextShow(e.target.value);
+    setSearchText(e.target.value);
+  };
   async function onGetCategories() {
     const { data } = await clientApi.get<Category>("/categories");
     setCategory(data);
     return data;
   }
 
+  const handleCheckedCategory = (e: ChangeEvent<HTMLInputElement>) => {
+    const categoryId = parseInt(e.target.id);
+    if (e.target.checked) {
+      setSearchByCategory((categorySelect) => categorySelect.concat(categoryId));
+    } else {
+      setSearchByCategory((categoryUnselect) => categoryUnselect.filter((id) => id !== categoryId));
+    }
+  };
+  const filteredProduct = useMemo(
+    () =>
+      productsStore?.data
+        ? productsStore?.data.filter(
+            (product) =>
+              product.name?.toLowerCase().includes(searchText.toLowerCase().trim()) &&
+              (searchByCategory.length === 0 ||
+                (product.category?.id && searchByCategory.includes(product.category.id))),
+          )
+        : [],
+    [searchText, searchByCategory, productsStore],
+  );
   useEffect(() => {
     if (!productsStore) {
       onGetProductStore();
       onGetCategories();
     }
-    setShowItem(productsStore?.data);
   }, [productsStore, category]);
 
   if (!productsStore) {
     return null;
   }
-  const handleCategory = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      if (showItem?.length == productsStore.data?.length) {
-        const result = productsStore?.data?.filter((productItem) => {
-          return productItem.category?.title == event.target.name;
-        });
-        setShowItem(result);
-      } else {
-        const result = productsStore?.data?.filter((productItem) => {
-          return productItem.category?.title == event.target.name;
-        });
 
-        setShowItem((showItem) => showItem?.concat(result ?? []));
-      }
-    } else {
-      const result = showItem?.filter((productItem) => {
-        return productItem.category?.title !== event.target.name;
-      });
-      if (result?.length === 0) {
-        setShowItem(productsStore.data);
-      } else setShowItem(result);
-    }
-  };
-
+  const currentItems = productsStore?.data && filteredProduct;
   return (
     <div>
       <WrapText>
@@ -180,8 +170,8 @@ function HomePage() {
           <div>
             <input
               type='search'
-              value={name}
-              onChange={filter}
+              value={searchTextShow}
+              onChange={handleSearchInput}
               className='input'
               placeholder='Filter'
             />
@@ -190,22 +180,22 @@ function HomePage() {
           <div>
             {category &&
               category.data?.map((category) => (
-                <>
+                <div key={category.id}>
                   <input
                     type='checkbox'
                     name={category.title}
                     id={category.id?.toString()}
-                    onChange={handleCategory}
+                    onChange={handleCheckedCategory}
                   />
                   <span>{category.title}</span>
                   <br />
-                </>
+                </div>
               ))}
           </div>
         </div>
         <div style={{ display: "flex", justifyContent: "flex-start", flexWrap: "wrap" }}>
-          {showItem && showItem.length > 0 ? (
-            showItem.map((product) => (
+          {currentItems && currentItems.length > 0 ? (
+            currentItems.map((product) => (
               <ItemProductWrap key={product.id}>
                 <Item>
                   <ItemTop>

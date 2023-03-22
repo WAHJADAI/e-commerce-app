@@ -176,6 +176,12 @@ const LogoWa = styled.span`
 
   position: relative;
 `;
+const UserName = styled.div`
+  background-color: #60a5fa;
+  padding: 10px;
+  color: white;
+  clip-path: circle(20px);
+`;
 type NavbarPropTypes = {};
 const links = [
   { name: "Home", path: "/" },
@@ -227,7 +233,7 @@ function Navbar({}: NavbarPropTypes) {
           )}
           {user && (
             <li>
-              <div>{user?.username.slice(0, 2).toUpperCase()}</div>
+              <UserName>{user?.username.slice(0, 2).toUpperCase()}</UserName>
             </li>
           )}
         </MenuNav>
