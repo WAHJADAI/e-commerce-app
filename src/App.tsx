@@ -8,8 +8,6 @@ import Navbar from "components/Navbar";
 import SignIn from "pages/SignIn";
 import SignUp from "pages/SignUp";
 import PrivateRoute from "components/PrivateRoute";
-
-import clientApi from "config/axiosConfig";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

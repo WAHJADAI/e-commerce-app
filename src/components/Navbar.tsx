@@ -4,6 +4,7 @@ import { NavLink, Outlet } from "react-router-dom";
 import useAuthenticationStore from "store/authentication/authentication.store";
 import useProfileStore from "store/profile/profile.store";
 import styled, { css } from "styled-components";
+import Footer from "./Footer";
 
 const NavBarStyled = styled.div`
   color: #60a5fa;
@@ -244,6 +245,7 @@ function Navbar({}: NavbarPropTypes) {
         </WrapBurger>
       </NavBarStyled>
       <Outlet />
+      <Footer />
     </>
   );
 }
