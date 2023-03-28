@@ -159,6 +159,9 @@ function HomePage() {
   useEffect(() => {
     if (!productsStore) {
       onGetProductStore();
+    }
+
+    if (!category) {
       onGetCategories();
     }
   }, [productsStore, category]);

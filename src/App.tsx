@@ -10,6 +10,7 @@ import SignUp from "pages/SignUp";
 import PrivateRoute from "components/PrivateRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ProfilePage from "pages/ProfilePage";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route index element={<HomePage />} />
           <Route element={<PrivateRoute />}>
             <Route path='about' element={<AboutPage />} />
+            <Route path='Profile' element={<ProfilePage />} />
           </Route>
         </Route>
         <Route path='*' element={<ErrorPage />} />

@@ -233,7 +233,9 @@ function Navbar({}: NavbarPropTypes) {
           )}
           {user && (
             <li>
-              <UserName>{user?.username.slice(0, 2).toUpperCase()}</UserName>
+              <NavLink to={"/Profile"}>
+                <UserName>{user?.username.slice(0, 2).toUpperCase()}</UserName>
+              </NavLink>
             </li>
           )}
         </MenuNav>
@@ -245,6 +247,7 @@ function Navbar({}: NavbarPropTypes) {
         </WrapBurger>
       </NavBarStyled>
       <Outlet />
+
       <Footer />
     </>
   );
