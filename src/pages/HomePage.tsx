@@ -87,6 +87,37 @@ const WrapFilter = styled.div`
   gap: 5px;
 `;
 
+const InputCategoryFilter = styled.input`
+  @media screen and (max-width: 700px) {
+    display: none;
+  }
+`;
+const SpanCategoryFilter = styled.span`
+  @media screen and (max-width: 700px) {
+    display: none;
+  }
+`;
+const IconCategoryInput = styled.span`
+  display: none;
+  @media screen and (max-width: 700px) {
+    display: flex;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    clip-path: circle(15px);
+    background-color: brown;
+
+    :hover {
+      background-color: #60a5fa;
+    }
+  }
+`;
+const CategoryFilterContent = styled.div`
+  display: block;
+  @media screen and (max-width: 700px) {
+    display: flex;
+  }
+`;
 function HomePage() {
   const texts = ["when", "shopping", "makes you", "happy"];
   const [searchTextShow, setSearchTextShow] = useState<string>("");
@@ -140,7 +171,13 @@ function HomePage() {
   if (!productsStore) {
     return null;
   }
-
+  const iconCategory = [
+    null,
+    <i className='fa-brands fa-bluetooth-b'></i>,
+    <i className='fa-regular fa-clock'></i>,
+    <i className='fa-solid fa-headphones'></i>,
+    <i className='fa-solid fa-wifi'></i>,
+  ];
   const currentItems = productsStore?.data && filteredProduct;
   return (
     <div>
@@ -165,21 +202,23 @@ function HomePage() {
             />
           </div>
 
-          <div>
+          <CategoryFilterContent>
             {categoryStore &&
               categoryStore.data?.map((category) => (
                 <div key={category.id}>
-                  <input
-                    type='checkbox'
-                    name={category.title}
-                    id={category.id?.toString()}
-                    onChange={handleCheckedCategory}
-                  />
-                  <span>{category.title}</span>
-                  <br />
+                  <label>
+                    <InputCategoryFilter
+                      type='checkbox'
+                      name={category.title}
+                      id={category.id?.toString()}
+                      onChange={handleCheckedCategory}
+                    />
+                    <SpanCategoryFilter>{category.title}</SpanCategoryFilter>
+                    <IconCategoryInput>{iconCategory[category.id ?? 0]}</IconCategoryInput>
+                  </label>
                 </div>
               ))}
-          </div>
+          </CategoryFilterContent>
         </WrapFilter>
         <div style={{ display: "flex", justifyContent: "center" }}>
           <div style={{ display: "flex", justifyContent: "flex-start", flexWrap: "wrap" }}>
