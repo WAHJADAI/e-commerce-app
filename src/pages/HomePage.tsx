@@ -5,6 +5,7 @@ import clientApi from "config/axiosConfig";
 import { onHandleErrorFromApi } from "helpers";
 import React, { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { SyntheticEvent } from "react-toastify/dist/utils";
+import useCategoryStore from "store/category/category.store";
 import useProductsStore from "store/products/product.store";
 import styled from "styled-components";
 import { shallow } from "zustand/shallow";
@@ -93,48 +94,18 @@ function HomePage() {
     (state) => ({ productsStore: state.productsStore, onGetProductStore: state.onGetProductStore }),
     shallow,
   );
+  const { categoryStore, onUpdateCategory } = useCategoryStore(
+    (state) => ({ categoryStore: state.category, onUpdateCategory: state.onUpdateCategory }),
+    shallow,
+  );
   const [searchText, setSearchText] = useState<string>("");
-  const [category, setCategory] = useState<Category>();
+
   const [searchByCategory, setSearchByCategory] = useState<number[]>([]);
-
-  type Category = {
-    data?: CategoryData[];
-    meta?: Meta;
-  };
-  //note getCategory
-  ///
-  ////
-  ////
-
-  type CategoryData = {
-    id?: number;
-    title?: string;
-    desc?: string;
-    createdAt?: Date;
-    updatedAt?: Date;
-    publishedAt?: Date;
-  };
-
-  type Meta = {
-    pagination?: Pagination;
-  };
-
-  type Pagination = {
-    page?: number;
-    pageSize?: number;
-    pageCount?: number;
-    total?: number;
-  };
 
   const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTextShow(e.target.value);
     setSearchText(e.target.value);
   };
-  async function onGetCategories() {
-    const { data } = await clientApi.get<Category>("/categories");
-    setCategory(data);
-    return data;
-  }
 
   const handleCheckedCategory = (e: ChangeEvent<HTMLInputElement>) => {
     const categoryId = parseInt(e.target.id);
@@ -161,10 +132,10 @@ function HomePage() {
       onGetProductStore();
     }
 
-    if (!category) {
-      onGetCategories();
+    if (!categoryStore) {
+      onUpdateCategory();
     }
-  }, [productsStore, category]);
+  }, [productsStore, categoryStore]);
 
   if (!productsStore) {
     return null;
@@ -195,8 +166,8 @@ function HomePage() {
           </div>
 
           <div>
-            {category &&
-              category.data?.map((category) => (
+            {categoryStore &&
+              categoryStore.data?.map((category) => (
                 <div key={category.id}>
                   <input
                     type='checkbox'
