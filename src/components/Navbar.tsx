@@ -207,7 +207,7 @@ function Navbar({}: NavbarPropTypes) {
   };
   const user = useProfileStore((state) => state.user);
   return (
-    <>
+    <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <NavBarStyled>
         {/* <NameShop>ShopWah</NameShop>*/}
         <Wrap>
@@ -246,10 +246,12 @@ function Navbar({}: NavbarPropTypes) {
           <BurgerLine checkTrueOrFalse={isChecked}></BurgerLine>
         </WrapBurger>
       </NavBarStyled>
-      <Outlet />
+      <div style={{ flexGrow: 1 }}>
+        <Outlet />
+      </div>
 
       <Footer />
-    </>
+    </div>
   );
 }
 
