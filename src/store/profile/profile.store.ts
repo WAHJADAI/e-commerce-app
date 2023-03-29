@@ -17,7 +17,7 @@ const useProfileStore = create<UseProfileStoreType>()(
         return user;
       },
       onRemoveUser: () => {
-        set({ user: null }), false, "onRemoveUser";
+        set({ user: null }, false, "onRemoveUser");
         useAuthenticationStore.getState().onRemoveJwt();
       },
     }),

@@ -22,6 +22,7 @@ function ProfilePage() {
       <div>Profile Page</div>
       <form style={{ display: "flex", justifyContent: "center", flexDirection: "column" }}>
         <PhotoProfile>Photo</PhotoProfile>
+        <input type='file' name='photo' id='' />
         <span>E-mail</span>
         <input type='email' name='' placeholder='Email' />
         <span>Password</span>
