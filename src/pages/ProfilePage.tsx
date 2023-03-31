@@ -4,7 +4,7 @@ import styled from "styled-components";
 const ProfileContent = styled.div`
   display: flex;
 
-  justify-content: start;
+  justify-content: center;
   justify-items: center;
 `;
 const PhotoProfile = styled.div`
@@ -14,25 +14,91 @@ const PhotoProfile = styled.div`
   height: 200px;
   clip-path: circle(100px);
 
-  background-color: blue;
+  background-color: #061d1c;
 `;
 
 const CardForm = styled.form`
   display: flex;
-  justify-content: center;
+  justify-content: start;
+  width: 450px;
+  padding: 10px;
+  margin: 20px;
+  border-radius: 30px;
+  background: white;
+  box-shadow: 15px 15px 30px #7e81ff, -15px -15px 30px #ffffff;
 `;
 const CardName = styled.div`
-  background-color: #8599b6;
+  font-family: "Sofia Sans", sans-serif;
+  display: flex;
+  justify-content: start;
+  width: 150px;
+  margin: 10px;
+  background-color: #cbcbcb;
 `;
 const CardAction = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: #b8bfc6;
+  font-family: "Sofia Sans", sans-serif;
+  margin: 10px;
+`;
+const Input = styled.input`
+  padding: 8px 12px;
+  border-radius: 4px;
+  outline: none;
+  border: 2px solid #0d9488;
+  padding: 15px;
+  font-family: "Sofia Sans", sans-serif;
+  ::placeholder {
+    color: transparent;
+  }
+  :placeholder-shown ~ Label {
+    position: absolute;
+    margin-top: 15px;
+    margin-left: 10px;
+    font-size: 16px;
+    transition: 0.2s;
+  }
+  :focus {
+    ~ Label {
+      position: absolute;
+      margin: 0;
+      margin-left: 10px;
+      font-size: 15px;
+      transition: 0.2s;
+      color: #656462;
+    }
+  }
+`;
+const SaveChangeButton = styled.button`
+  border: none;
+  background-color: bisque;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 2rem;
+  font-family: "Sofia Sans", sans-serif;
+  width: 150px;
+  :hover {
+    background-color: #98c5fc;
+  }
+`;
+const NameInput = styled.label`
+  font-family: "Sofia Sans", sans-serif;
+  position: absolute;
+  margin-left: 10px;
+  font-size: 15px;
+  transition: 0.2s;
+  color: black;
+`;
+const WrapperInput = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin: 5px;
 `;
 function ProfilePage() {
   return (
     <ProfileContent>
-      <div
+      {/* <div
         style={{
           backgroundColor: "#7E81FF",
           borderRadius: "10px",
@@ -43,7 +109,7 @@ function ProfilePage() {
         }}
       >
         <div>Account Management</div>
-      </div>
+      </div> */}
       <div
         style={{
           display: "flex",
@@ -57,24 +123,41 @@ function ProfilePage() {
           <CardAction>
             <PhotoProfile>Photo</PhotoProfile>
             <input type='file' name='photo' id='' />
-            <span>E-mail</span>
-            <input type='email' name='' placeholder='Email' />
-            <span>Name</span>
-            <input type='text' name='' placeholder='Name' />
-            <span>Surname</span>
-            <input type='text' name='' placeholder='Surname' />
+            <WrapperInput>
+              <Input type='email' name='' placeholder='EMAIL ADDRESS' />
+              <NameInput>EMAIL ADDRESS</NameInput>
+            </WrapperInput>
 
-            <button type='submit'>Save </button>
+            <WrapperInput>
+              <Input type='text' name='' placeholder='NAME' />
+              <NameInput>NAME</NameInput>
+            </WrapperInput>
+
+            <WrapperInput>
+              <Input type='text' name='' placeholder='SURNAME' />
+              <NameInput>SURNAME</NameInput>
+            </WrapperInput>
+
+            <SaveChangeButton type='submit'>SAVE </SaveChangeButton>
           </CardAction>
         </CardForm>
         <CardForm>
           <CardName>Change Password</CardName>
           <CardAction>
-            <span>Password</span>
-            <input type='password' name='' placeholder='password' />
-            <span>Conform Password</span>
-            <input type='password' name='' placeholder='Conform password' />
-            <button type='submit'>Save </button>
+            <WrapperInput>
+              <Input type='password' name='' placeholder='CURRENT PASSWORD' />
+              <NameInput>CURRENT PASSWORD</NameInput>
+            </WrapperInput>
+            <WrapperInput>
+              <Input type='password' name='' placeholder='NEW PASSWORD' />
+              <NameInput>NEW PASSWORD</NameInput>
+            </WrapperInput>
+            <WrapperInput>
+              <Input type='password' name='' placeholder='CONFIRM NEW PASSWORD' />
+              <NameInput>CONFIRM NEW PASSWORD</NameInput>
+            </WrapperInput>
+
+            <SaveChangeButton type='submit'>SAVE CHANGES </SaveChangeButton>
           </CardAction>
         </CardForm>
       </div>
