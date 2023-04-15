@@ -121,8 +121,11 @@ function ProfilePage() {
         <CardForm>
           <CardName>Personal Information</CardName>
           <CardAction>
-            <PhotoProfile>Photo</PhotoProfile>
-            <input type='file' name='photo' id='' />
+            <label>
+              <PhotoProfile>Photo</PhotoProfile>
+              <input type='file' name='photo' id='' style={{ display: "none" }} />
+            </label>
+
             <WrapperInput>
               <Input type='email' name='' placeholder='EMAIL ADDRESS' />
               <NameInput>EMAIL ADDRESS</NameInput>
@@ -144,20 +147,7 @@ function ProfilePage() {
         <CardForm>
           <CardName>Change Password</CardName>
           <CardAction>
-            <WrapperInput>
-              <Input type='password' name='' placeholder='CURRENT PASSWORD' />
-              <NameInput>CURRENT PASSWORD</NameInput>
-            </WrapperInput>
-            <WrapperInput>
-              <Input type='password' name='' placeholder='NEW PASSWORD' />
-              <NameInput>NEW PASSWORD</NameInput>
-            </WrapperInput>
-            <WrapperInput>
-              <Input type='password' name='' placeholder='CONFIRM NEW PASSWORD' />
-              <NameInput>CONFIRM NEW PASSWORD</NameInput>
-            </WrapperInput>
-
-            <SaveChangeButton type='submit'>SAVE CHANGES </SaveChangeButton>
+            <SaveChangeButton type='submit'>CLICK CHANGES PASSWORD</SaveChangeButton>
           </CardAction>
         </CardForm>
       </div>

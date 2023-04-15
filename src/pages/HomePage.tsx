@@ -118,6 +118,72 @@ const CategoryFilterContent = styled.div`
     display: flex;
   }
 `;
+const CarouselSlider = styled.section`
+  margin: 1rem;
+  position: relative;
+  overflow: hidden;
+`;
+const SlidesContainer = styled.ul`
+  height: 40vh;
+  width: 100%;
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow: scroll;
+  scroll-behavior: smooth;
+`;
+const Slide = styled.li`
+  width: 100%;
+  height: 100%;
+  flex: 1 0 100%;
+`;
+const SlideArrowLeft = styled.button`
+  position: absolute;
+  display: flex;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  height: 4rem;
+  background-color: white;
+  border: none;
+  width: 2rem;
+  font-size: 3rem;
+  padding: 0;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 100ms;
+  left: 0;
+  padding-left: 0.25rem;
+  border-radius: 0 2rem 2rem 0;
+  :hover,
+  :focus {
+    opacity: 1;
+  }
+`;
+const SlideArrowRight = styled.button`
+  position: absolute;
+  display: flex;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  height: 4rem;
+  background-color: white;
+  border: none;
+  width: 2rem;
+  font-size: 3rem;
+  padding: 0;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 100ms;
+  right: 0;
+  padding-left: 0.75rem;
+  border-radius: 2rem 0 0 2rem;
+  :hover,
+  :focus {
+    opacity: 1;
+  }
+`;
 function HomePage() {
   const texts = ["when", "shopping", "makes you", "happy"];
   const [searchTextShow, setSearchTextShow] = useState<string>("");
@@ -181,13 +247,25 @@ function HomePage() {
   const currentItems = productsStore?.data && filteredProduct;
   return (
     <div>
+      <CarouselSlider>
+        <SlideArrowLeft>&#8249;</SlideArrowLeft>
+
+        <SlideArrowRight>&#8250;</SlideArrowRight>
+
+        <SlidesContainer>
+          <Slide>1</Slide>
+          <Slide>2</Slide>
+          <Slide>3</Slide>
+          <Slide>4</Slide>
+        </SlidesContainer>
+      </CarouselSlider>
       <WrapText>
-        <Line></Line>
+        {/* <Line></Line>
         {texts.map((text, index) => (
           <HomePagText key={index}>{text}</HomePagText>
         ))}
 
-        <Line></Line>
+        <Line></Line> */}
       </WrapText>
 
       <WrapContent>
