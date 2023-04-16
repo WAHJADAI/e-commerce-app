@@ -124,7 +124,7 @@ const CarouselSlider = styled.section`
   overflow: hidden;
 `;
 const SlidesContainer = styled.ul`
-  height: 40vh;
+  max-height: 45vh;
   width: 100%;
   display: flex;
   list-style: none;
@@ -132,6 +132,12 @@ const SlidesContainer = styled.ul`
   padding: 0;
   overflow: scroll;
   scroll-behavior: smooth;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
 `;
 const Slide = styled.li`
   width: 100%;
@@ -271,10 +277,35 @@ function HomePage() {
         <SlideArrowRight onClick={next}>&#8250;</SlideArrowRight>
 
         <SlidesContainer ref={CarouselRef}>
-          <Slide>1</Slide>
-          <Slide>2</Slide>
-          <Slide>3</Slide>
-          <Slide>4</Slide>
+          <Slide>
+            <WrapText>
+              <HomePagText>
+                when<br></br>shopping<br></br> makes you<br></br>happy.
+              </HomePagText>
+            </WrapText>
+          </Slide>
+          <Slide>
+            <WrapText>
+              <HomePagText>
+                Shopping <br></br>is<br></br> my <br></br>cardio.
+              </HomePagText>
+            </WrapText>
+          </Slide>
+          <Slide>
+            <WrapText>
+              <HomePagText>
+                Whoever said <br></br>that money can’t buy happiness <br></br>simply didn’t know
+                <br></br> where to go shopping.
+              </HomePagText>
+            </WrapText>
+          </Slide>
+          <Slide>
+            <WrapText>
+              <HomePagText>
+                Online shopping <br></br>makes everything <br></br>so much <br></br>easier.
+              </HomePagText>
+            </WrapText>
+          </Slide>
         </SlidesContainer>
       </CarouselSlider>
       <WrapText>
