@@ -3,7 +3,7 @@ import { Products } from "api/products/products.type";
 
 import clientApi from "config/axiosConfig";
 import { onHandleErrorFromApi } from "helpers";
-import React, { ChangeEvent, useEffect, useMemo, useState } from "react";
+import React, { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
 import { SyntheticEvent } from "react-toastify/dist/utils";
 import useCategoryStore from "store/category/category.store";
 import useProductsStore from "store/products/product.store";
@@ -185,6 +185,7 @@ const SlideArrowRight = styled.button`
   }
 `;
 function HomePage() {
+  const CarouselRef = React.useRef<HTMLUListElement>(null);
   const texts = ["when", "shopping", "makes you", "happy"];
   const [searchTextShow, setSearchTextShow] = useState<string>("");
   const { productsStore, onGetProductStore } = useProductsStore(
@@ -245,14 +246,31 @@ function HomePage() {
     <i className='fa-solid fa-wifi'></i>,
   ];
   const currentItems = productsStore?.data && filteredProduct;
+
+  const prev = () => {
+    requestAnimationFrame(() => {
+      const itemWidth = CarouselRef.current?.clientWidth;
+      if (itemWidth) {
+        CarouselRef.current.scrollLeft -= itemWidth;
+      }
+    });
+  };
+  const next = () => {
+    requestAnimationFrame(() => {
+      const itemWidth = CarouselRef.current?.clientWidth;
+      if (itemWidth) {
+        CarouselRef.current.scrollLeft += itemWidth;
+      }
+    });
+  };
   return (
     <div>
       <CarouselSlider>
-        <SlideArrowLeft>&#8249;</SlideArrowLeft>
+        <SlideArrowLeft onClick={prev}>&#8249;</SlideArrowLeft>
 
-        <SlideArrowRight>&#8250;</SlideArrowRight>
+        <SlideArrowRight onClick={next}>&#8250;</SlideArrowRight>
 
-        <SlidesContainer>
+        <SlidesContainer ref={CarouselRef}>
           <Slide>1</Slide>
           <Slide>2</Slide>
           <Slide>3</Slide>
