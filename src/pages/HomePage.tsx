@@ -124,7 +124,7 @@ const CarouselSlider = styled.section`
   overflow: hidden;
 `;
 const SlidesContainer = styled.ul`
-  max-height: 45vh;
+  height: 45vh;
   width: 100%;
   display: flex;
   list-style: none;
@@ -192,7 +192,7 @@ const SlideArrowRight = styled.button`
 `;
 function HomePage() {
   const CarouselRef = React.useRef<HTMLUListElement>(null);
-  const texts = ["when", "shopping", "makes you", "happy"];
+
   const [searchTextShow, setSearchTextShow] = useState<string>("");
   const { productsStore, onGetProductStore } = useProductsStore(
     (state) => ({ productsStore: state.productsStore, onGetProductStore: state.onGetProductStore }),
@@ -308,14 +308,6 @@ function HomePage() {
           </Slide>
         </SlidesContainer>
       </CarouselSlider>
-      <WrapText>
-        {/* <Line></Line>
-        {texts.map((text, index) => (
-          <HomePagText key={index}>{text}</HomePagText>
-        ))}
-
-        <Line></Line> */}
-      </WrapText>
 
       <WrapContent>
         <WrapFilter>

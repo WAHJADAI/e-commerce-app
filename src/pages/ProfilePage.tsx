@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEvent, useState } from "react";
 import styled from "styled-components";
 
 const ProfileContent = styled.div`
@@ -96,6 +96,13 @@ const WrapperInput = styled.div`
   margin: 5px;
 `;
 function ProfilePage() {
+  const [imgProfile, setImgProfile] = useState<File | null>(null);
+  const handleSetImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setImgProfile(e.target.files[0]);
+    }
+    console.log(imgProfile);
+  };
   return (
     <ProfileContent>
       {/* <div
@@ -122,8 +129,16 @@ function ProfilePage() {
           <CardName>Personal Information</CardName>
           <CardAction>
             <label>
-              <PhotoProfile>Photo</PhotoProfile>
-              <input type='file' name='photo' id='' style={{ display: "none" }} />
+              <PhotoProfile>
+                {imgProfile ? <img src={URL.createObjectURL(imgProfile)}></img> : null}
+              </PhotoProfile>
+              <input
+                type='file'
+                name='photo'
+                id=''
+                style={{ display: "none" }}
+                onChange={handleSetImage}
+              />
             </label>
 
             <WrapperInput>
