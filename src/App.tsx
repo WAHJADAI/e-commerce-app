@@ -11,6 +11,7 @@ import PrivateRoute from "components/PrivateRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProfilePage from "pages/ProfilePage";
+import ShoppingCart from "pages/ShoppingCart";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           <Route element={<PrivateRoute />}>
             <Route path='about' element={<AboutPage />} />
             <Route path='Profile' element={<ProfilePage />} />
+            <Route path='shoppingCart' element={<ShoppingCart />}></Route>
           </Route>
         </Route>
         <Route path='*' element={<ErrorPage />} />

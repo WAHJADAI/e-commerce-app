@@ -1,6 +1,7 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
+import useProfileStore from "store/profile/profile.store";
 const ProfileContent = styled.div`
   display: flex;
 
@@ -95,14 +96,17 @@ const WrapperInput = styled.div`
   gap: 1.5rem;
   margin: 5px;
 `;
+
 function ProfilePage() {
   const [imgProfile, setImgProfile] = useState<File | null>(null);
+  const user = useProfileStore((state) => state.user);
   const handleSetImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setImgProfile(e.target.files[0]);
     }
     console.log(imgProfile);
   };
+
   return (
     <ProfileContent>
       {/* <div
@@ -113,9 +117,10 @@ function ProfilePage() {
           margin: "10px",
           position: "sticky",
           height: "300px",
+          width: "300px",
         }}
       >
-        <div>Account Management</div>
+        
       </div> */}
       <div
         style={{
@@ -142,7 +147,13 @@ function ProfilePage() {
             </label>
 
             <WrapperInput>
-              <Input type='email' name='' placeholder='EMAIL ADDRESS' />
+              <Input
+                type='email'
+                name=''
+                placeholder='EMAIL ADDRESS'
+                value={user?.email}
+                disabled
+              />
               <NameInput>EMAIL ADDRESS</NameInput>
             </WrapperInput>
 
@@ -154,6 +165,10 @@ function ProfilePage() {
             <WrapperInput>
               <Input type='text' name='' placeholder='SURNAME' />
               <NameInput>SURNAME</NameInput>
+            </WrapperInput>
+            <WrapperInput>
+              <Input type='text' name='' placeholder='ADDRESS' />
+              <NameInput>ADDRESS</NameInput>
             </WrapperInput>
 
             <SaveChangeButton type='submit'>SAVE </SaveChangeButton>

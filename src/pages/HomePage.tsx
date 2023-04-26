@@ -87,36 +87,11 @@ const WrapFilter = styled.div`
   gap: 5px;
 `;
 
-const InputCategoryFilter = styled.input`
-  @media screen and (max-width: 700px) {
-    display: none;
-  }
-`;
-const SpanCategoryFilter = styled.span`
-  @media screen and (max-width: 700px) {
-    display: none;
-  }
-`;
-const IconCategoryInput = styled.span`
-  display: none;
-  @media screen and (max-width: 700px) {
-    display: flex;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    clip-path: circle(15px);
-    background-color: brown;
+const InputCategoryFilter = styled.input``;
+const SpanCategoryFilter = styled.span``;
 
-    :hover {
-      background-color: #60a5fa;
-    }
-  }
-`;
 const CategoryFilterContent = styled.div`
   display: block;
-  @media screen and (max-width: 700px) {
-    display: flex;
-  }
 `;
 const CarouselSlider = styled.section`
   margin: 1rem;
@@ -128,6 +103,7 @@ const SlidesContainer = styled.ul`
   width: 100%;
   display: flex;
   list-style: none;
+  scroll-snap-type: x mandatory;
   margin: 0;
   padding: 0;
   overflow: scroll;
@@ -244,13 +220,7 @@ function HomePage() {
   if (!productsStore) {
     return null;
   }
-  const iconCategory = [
-    null,
-    <i className='fa-brands fa-bluetooth-b'></i>,
-    <i className='fa-regular fa-clock'></i>,
-    <i className='fa-solid fa-headphones'></i>,
-    <i className='fa-solid fa-wifi'></i>,
-  ];
+
   const currentItems = productsStore?.data && filteredProduct;
 
   const prev = () => {
@@ -333,7 +303,6 @@ function HomePage() {
                       onChange={handleCheckedCategory}
                     />
                     <SpanCategoryFilter>{category.title}</SpanCategoryFilter>
-                    <IconCategoryInput>{iconCategory[category.id ?? 0]}</IconCategoryInput>
                   </label>
                 </div>
               ))}

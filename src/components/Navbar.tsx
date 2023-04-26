@@ -5,7 +5,7 @@ import useAuthenticationStore from "store/authentication/authentication.store";
 import useProfileStore from "store/profile/profile.store";
 import styled, { css } from "styled-components";
 import Footer from "./Footer";
-
+import { ShoppingCartIcon } from "lucide-react";
 const NavBarStyled = styled.div`
   color: #60a5fa;
   display: flex;
@@ -40,7 +40,7 @@ const MenuNav = styled.ul<TypeChecked>`
   }
 
   @media screen and (max-width: 500px) {
-    z-index: 1;
+    z-index: 2;
     margin-right: 0;
 
     position: absolute;
@@ -104,7 +104,7 @@ const WrapBurger = styled.label`
   @media screen and (max-width: 500px) {
     display: flex;
     flex-direction: column;
-    z-index: 2;
+    z-index: 3;
   }
 `;
 const BurgerLine = styled.span<TypeChecked>`
@@ -226,6 +226,11 @@ function Navbar({}: NavbarPropTypes) {
                 <NavLink to={`${link.path}`}>{link.name}</NavLink>
               </li>
             ))}
+          <li>
+            <NavLink to={"/shoppingCart"}>
+              <ShoppingCartIcon color='#60a5fa' size={24}></ShoppingCartIcon>
+            </NavLink>
+          </li>
           {jwtToken && (
             <li>
               <SignOutButton onClick={() => onSignOut()}>Sign Out</SignOutButton>
