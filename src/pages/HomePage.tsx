@@ -4,6 +4,7 @@ import { Products } from "api/products/products.type";
 import clientApi from "config/axiosConfig";
 import { onHandleErrorFromApi } from "helpers";
 import React, { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { SyntheticEvent } from "react-toastify/dist/utils";
 import useCategoryStore from "store/category/category.store";
 import useProductsStore from "store/products/product.store";
@@ -312,22 +313,24 @@ function HomePage() {
           <div style={{ display: "flex", justifyContent: "flex-start", flexWrap: "wrap" }}>
             {currentItems && currentItems.length > 0 ? (
               currentItems.map((product) => (
-                <ItemProductWrap key={product.id}>
-                  <Item>
-                    <ItemTop>
-                      <span>{product.isNew ? "New" : "Previously owned"}</span>
-                      <span>{product.stock}</span>
-                    </ItemTop>
-                    <ItemBottom>
-                      <ItemName>{product.name}</ItemName>
-                      <PhotoItem>
-                        <img src={product.img?.url} width='150px' height='150px' />
-                      </PhotoItem>
-                    </ItemBottom>
+                <Link to={`product?name=${product.name}`}>
+                  <ItemProductWrap key={product.id}>
+                    <Item>
+                      <ItemTop>
+                        <span>{product.isNew ? "New" : "Previously owned"}</span>
+                        <span>{product.stock}</span>
+                      </ItemTop>
+                      <ItemBottom>
+                        <ItemName>{product.name}</ItemName>
+                        <PhotoItem>
+                          <img src={product.img?.url} width='150px' height='150px' />
+                        </PhotoItem>
+                      </ItemBottom>
 
-                    <span>$ {product.price}</span>
-                  </Item>
-                </ItemProductWrap>
+                      <span>$ {product.price}</span>
+                    </Item>
+                  </ItemProductWrap>
+                </Link>
               ))
             ) : (
               <h1>No results found!</h1>

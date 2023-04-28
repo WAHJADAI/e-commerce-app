@@ -12,6 +12,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProfilePage from "pages/ProfilePage";
 import ShoppingCart from "pages/ShoppingCart";
+import Product from "pages/Product";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Navbar />}>
           <Route index element={<HomePage />} />
+          <Route path='product' element={<Product />}></Route>
           <Route element={<PrivateRoute />}>
             <Route path='about' element={<AboutPage />} />
             <Route path='Profile' element={<ProfilePage />} />
