@@ -28,7 +28,7 @@ const MenuNav = styled.ul<TypeChecked>`
   display: flex;
   align-items: center;
   gap: 1rem;
-
+  transition: all 0.3s ease-in-out;
   li {
     a {
       text-decoration: none;
@@ -39,37 +39,43 @@ const MenuNav = styled.ul<TypeChecked>`
     }
   }
 
-  @media screen and (max-width: 500px) {
-    z-index: 2;
-    margin-right: 0;
+  ${(props) =>
+    props.checkTrueOrFalse &&
+    css`
+      z-index: 2;
+      margin-right: 0;
 
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    height: 300vh;
-    width: 100%;
-    background-color: black;
-    flex-direction: column;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      right: 0px;
+      bottom: 0px;
+      height: 300vh;
+      width: 100%;
+      background-color: black;
+      flex-direction: column;
 
-    clip-path: ${(props) =>
-      props.checkTrueOrFalse ? "circle(75%)" : "circle(0px at calc(100% - 45px) 45px)"};
-    transition: all 0.3s ease-in-out;
-    li {
-      margin: 15px 0;
-      a {
-        color: none;
-        text-decoration: none;
+      clip-path: circle(75%);
 
-        padding: 5px 30px;
-        color: #fff;
-        border-radius: 50px;
-        background: #000;
-        position: relative;
-        line-height: 50px;
-        transition: all 0.3s ease;
+      li {
+        margin: 15px 0;
+        a {
+          color: none;
+          text-decoration: none;
+
+          padding: 5px 30px;
+          color: #fff;
+          border-radius: 50px;
+          background: #000;
+          position: relative;
+          line-height: 50px;
+          transition: all 0.3s ease;
+        }
       }
+    `}
+  @media screen and (max-width: 500px) {
+    li {
+      display: ${(props) => (props.checkTrueOrFalse ? "flex" : "none")};
     }
   }
 `;
@@ -97,14 +103,14 @@ const SignOutButton = styled.button`
     transform: translateY(3px);
   }
 `;
-const WrapBurger = styled.label`
-  display: none;
+const WrapBurger = styled.label<TypeChecked>`
+  display: ${(props) => (props.checkTrueOrFalse ? "flex" : "none")};
   width: 75px;
   cursor: pointer;
+  flex-direction: column;
+  z-index: 3;
   @media screen and (max-width: 500px) {
     display: flex;
-    flex-direction: column;
-    z-index: 3;
   }
 `;
 const BurgerLine = styled.span<TypeChecked>`
@@ -244,7 +250,7 @@ function Navbar({}: NavbarPropTypes) {
             </li>
           )}
         </MenuNav>
-        <WrapBurger>
+        <WrapBurger checkTrueOrFalse={isChecked}>
           <CheckMenuNav onChange={handleIsChecked} />
           <BurgerLine checkTrueOrFalse={isChecked}></BurgerLine>
           <BurgerLine checkTrueOrFalse={isChecked}></BurgerLine>
