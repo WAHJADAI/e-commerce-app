@@ -34,7 +34,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Navbar />}>
           <Route index element={<HomePage />} />
-          <Route path='product' element={<Product />}></Route>
+          <Route path='product/:slug' element={<Product />}></Route>
           <Route element={<PrivateRoute />}>
             <Route path='about' element={<AboutPage />} />
             <Route path='Profile' element={<ProfilePage />} />

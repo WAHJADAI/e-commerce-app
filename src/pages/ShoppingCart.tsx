@@ -55,6 +55,7 @@ const WrapShoppingCart = styled.div`
 const WrapButtonBottom = styled.div`
   position: relative;
   bottom: 0;
+  z-index: -1;
 `;
 const WrapShoppingCartItem = styled.div``;
 function ShoppingCart({}: Props) {

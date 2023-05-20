@@ -98,6 +98,7 @@ const CarouselSlider = styled.section`
   margin: 1rem;
   position: relative;
   overflow: hidden;
+  z-index: -1;
 `;
 const SlidesContainer = styled.ul`
   height: 45vh;
@@ -313,7 +314,7 @@ function HomePage() {
           <div style={{ display: "flex", justifyContent: "flex-start", flexWrap: "wrap" }}>
             {currentItems && currentItems.length > 0 ? (
               currentItems.map((product) => (
-                <Link to={`product?name=${product.name}`}>
+                <Link to={`product/${product.slug}`}>
                   <ItemProductWrap key={product.id}>
                     <Item>
                       <ItemTop>
